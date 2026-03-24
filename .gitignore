@@ -11,3 +11,5 @@ wheels/
 .env
 .vscode/
 project1/output/
+project1/.code_tmp/
+project1/.container_id

@@ -1,65 +1,97 @@
 """
-LangChain tool that runs arbitrary Python code inside a local Docker container.
+LangChain tool that runs arbitrary Python code inside a persistent Docker container.
+The container is started once and reused across script runs via a stored container ID.
 Provides isolation, memory/CPU limits, and cleanup. Used by docker_agent.py.
 """
 import docker
 from langchain_core.tools import tool
-import tempfile
 import os
+import time
+import uuid
+
+_BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+_OUTPUT_DIR = os.path.join(_BASE_DIR, "output")
+_CODE_DIR = os.path.join(_BASE_DIR, ".code_tmp")
+_CONTAINER_ID_FILE = os.path.join(_BASE_DIR, ".container_id")
+
+def _get_or_create_container() -> "docker.models.containers.Container":
+    client = docker.from_env()
+    os.makedirs(_OUTPUT_DIR, exist_ok=True)
+    os.makedirs(_CODE_DIR, exist_ok=True)
+
+    if os.path.exists(_CONTAINER_ID_FILE):
+        try:
+            with open(_CONTAINER_ID_FILE) as f:
+                container = client.containers.get(f.read().strip())
+            if container.status == "running":
+                return container
+            container.remove()
+        except Exception:
+            pass
+
+    print("[docker] Starting persistent container...")
+    t0 = time.time()
+    container = client.containers.run(
+        "code-executor:latest",
+        "sleep infinity",
+        volumes={
+            _CODE_DIR: {"bind": "/app", "mode": "rw"},
+            _OUTPUT_DIR: {"bind": "/output", "mode": "rw"},
+        },
+        detach=True,
+        mem_limit="256m",   # max RAM the container can use
+        cpu_quota=50000,    # 50000 = 50% of 1 CPU core (out of 100000 = 1 full core) 
+    )
+    print(f"[timing] Container startup: {time.time() - t0:.2f}s")
+    with open(_CONTAINER_ID_FILE, "w") as f:
+        f.write(container.id)
+    return container
 
 @tool
-def execute_docker(code: str, packages: list[str] = None, timeout: int = 30) -> str:
+def execute_docker(code: str, packages: list[str] = None, timeout: int = 60) -> str:
     """
-    Execute Python code in a Docker container.
-    
+    Execute Python code in a persistent Docker container.
+
     Args:
         code: Python code to execute
-        packages: Optional list of pip packages to install before running (e.g. ["seaborn", "pandas"])
+        packages: Optional list of pip packages to install (e.g. ["seaborn", "pandas"])
         timeout: Timeout in seconds
-        
+
     Returns:
         Output from code execution and paths to any saved files
     """
-    client = docker.from_env()
-    output_dir = os.path.join(os.path.dirname(__file__), "output")
-    os.makedirs(output_dir, exist_ok=True)
+    container = _get_or_create_container()
+    code_file = f"/app/code_{uuid.uuid4().hex[:8]}.py"
+    host_file = os.path.join(_CODE_DIR, os.path.basename(code_file))
 
-    # Create temporary file with code
-    with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as f:
-        f.write(code)
-        temp_file = f.name
+    with open(host_file, "w") as f:
+        f.write(code.strip())
 
     print(f"\n--- Executing in Docker ---\n{code}\n---------------------------\n")
+    t0 = time.time()
     try:
-        # Run code in container
-        result = client.containers.run(
-            "code-executor:latest",
-            f"sh -c 'pip install -q {' '.join(packages)} && python {os.path.basename(temp_file)}'" if packages else f"python {os.path.basename(temp_file)}",
-            volumes={
-                os.path.dirname(temp_file): {'bind': '/app', 'mode': 'ro'},
-                output_dir: {'bind': '/output', 'mode': 'rw'},
-            },
-            working_dir='/app',
-            remove=True,
-            stdout=True,
-            stderr=True,
-            mem_limit='128m',
-            cpu_quota=50000
+        if packages:
+            container.exec_run(f"uv pip install --system -q {' '.join(packages)}", stdout=True, stderr=True)
+
+        exit_code, output = container.exec_run(
+            f"python {code_file}", stdout=True, stderr=True, workdir="/app"
         )
+        print(f"[timing] Docker exec: {time.time() - t0:.2f}s")
 
-        output = result.decode('utf-8')
-        saved_files = [os.path.join(output_dir, f) for f in os.listdir(output_dir)]
+        result = output.decode("utf-8")
+        saved_files = [os.path.join(_OUTPUT_DIR, f) for f in os.listdir(_OUTPUT_DIR)]
         if saved_files:
-            output += f"\nSaved files: {saved_files}"
-        return output
-
-    except docker.errors.ContainerError as e:
-        return f"Error: {e.stderr.decode('utf-8')}"
-    except Exception as e:
-        return f"Error: {str(e)}"
+            result += f"\nSaved files: {saved_files}"
+        return result
     finally:
-        if os.path.exists(temp_file):
-            os.unlink(temp_file)
+        if os.path.exists(host_file):
+            os.unlink(host_file)
 
 if __name__ == "__main__":
-    print(execute_docker.invoke("print(3+2-1)"))
+    print(execute_docker.invoke({
+        "code": """
+import cowsay
+cowsay.cow("Hi Kshitij")
+""",
+        "packages": ["cowsay"]
+    }))
