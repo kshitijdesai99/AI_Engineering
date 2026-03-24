@@ -31,7 +31,8 @@ SYSTEM_PROMPT = """Generate Python code for queries, then execute with docker to
 1. Write complete code with imports/print()
 2. Save any plots or files to /output/ (e.g. plt.savefig('/output/plot.png'))
 3. Always pass packages=[...] with every third-party library your code imports (e.g. packages=["seaborn", "pandas"])
-4. execute_docker(code=your_code, packages=[...])
+4. When making HTTP requests always set headers={"User-Agent": "Mozilla/5.0"}
+5. execute_docker(code=your_code, packages=[...])
 Return execution result and any saved file paths."""
 
 def get_agent(provider: str, max_tool_calls: int = MAX_TOOL_CALLS):
@@ -48,7 +49,7 @@ if __name__ == "__main__":
     t_total = time.time()
 
     result = agent.invoke(
-        {"messages": [HumanMessage("plot a sine curve")]},
+        {"messages": [HumanMessage("download the image at https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Walking_tiger_female.jpg/1280px-Walking_tiger_female.jpg")]},
         config={"recursion_limit": recursion_limit},
     )
 
