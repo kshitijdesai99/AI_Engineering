@@ -6,7 +6,6 @@ Provides isolation, memory/CPU limits, and cleanup. Used by docker_agent.py.
 import docker
 from langchain_core.tools import tool
 import os
-import time
 import uuid
 
 _BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -29,8 +28,6 @@ def _get_or_create_container() -> "docker.models.containers.Container":
         except Exception:
             pass
 
-    print("[docker] Starting persistent container...")
-    t0 = time.time()
     container = client.containers.run(
         "code-executor:latest",
         "sleep infinity",
@@ -42,7 +39,6 @@ def _get_or_create_container() -> "docker.models.containers.Container":
         mem_limit="256m",   # max RAM the container can use
         cpu_quota=50000,    # 50000 = 50% of 1 CPU core (out of 100000 = 1 full core) 
     )
-    print(f"[timing] Container startup: {time.time() - t0:.2f}s")
     with open(_CONTAINER_ID_FILE, "w") as f:
         f.write(container.id)
     return container
@@ -67,8 +63,6 @@ def execute_docker(code: str, packages: list[str] = None, timeout: int = 60) -> 
     with open(host_file, "w") as f:
         f.write(code.strip())
 
-    print(f"\n--- Executing in Docker ---\n{code}\n---------------------------\n")
-    t0 = time.time()
     try:
         if packages:
             container.exec_run(f"uv pip install --system -q {' '.join(packages)}", stdout=True, stderr=True)
@@ -76,10 +70,7 @@ def execute_docker(code: str, packages: list[str] = None, timeout: int = 60) -> 
         exit_code, output = container.exec_run(
             f"python {code_file}", stdout=True, stderr=True, workdir="/app"
         )
-        print(f"[timing] Docker exec: {time.time() - t0:.2f}s")
-
         result = output.decode("utf-8")
-        print(f"--- Output ---\n{result.strip()}\n--------------\n")
         saved_files = [os.path.join(_OUTPUT_DIR, f) for f in os.listdir(_OUTPUT_DIR)]
         if saved_files:
             result += f"\nSaved files: {saved_files}"
