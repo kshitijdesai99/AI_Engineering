@@ -37,17 +37,21 @@ python docker_agent.py [gemini|openai|openrouter]
 ```
 User query
     ↓
- [model] — LLM generates code → calls execute_docker
-    ↓
- [tools] — Docker runs code, returns stdout + saved file paths
+ [model] — LLM decides: answer directly or call execute_docker
+    ↓ tool call                        ↓ direct answer
+ [tools] — Docker runs code          → END
     ↓
  [critic] — Judge LLM: DONE or CONTINUE?
     ↓ CONTINUE          ↓ DONE
- [model]             → final answer
+ [model]            [summarize] — LLM writes final answer from results
+                        ↓
+                       END
 ```
 
 - **Persistent container** reused across runs (ID stored in `.container_id`)
 - **On-demand packages** installed via `uv pip install`
 - **Critic node** stops the loop early when the task is satisfied, preventing unnecessary extra tool calls
+- **Summarize node** — dedicated LLM call to synthesize tool results into a clear final answer
 - **Error truncation** — errors capped at 500 chars before being fed back to the LLM
+- **Consecutive error guard** — exits after 3 repeated failures to avoid infinite loops
 - **LangSmith tracing** — all runs traced to the `docker-agent` project

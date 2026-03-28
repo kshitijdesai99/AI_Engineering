@@ -62,6 +62,14 @@ def get_agent(provider: str, max_tool_calls: int = MAX_TOOL_CALLS):
         last = state["messages"][-1]
         if not isinstance(last, ToolMessage):
             return {"messages": []}
+        tool_results = [m for m in state["messages"] if isinstance(m, ToolMessage)]
+        if len(tool_results) >= 3 and all(
+            any(kw in m.content.lower() for kw in ("error", "traceback", "syntaxerror", "line 1"))
+            for m in tool_results[-3:]
+        ):
+            done = AIMessage(content="DONE")
+            done.name = "critic"
+            return {"messages": [done]}
         verdict = critic_llm.invoke([
             SystemMessage(content=CRITIC_PROMPT),
             *state["messages"],
@@ -75,21 +83,30 @@ def get_agent(provider: str, max_tool_calls: int = MAX_TOOL_CALLS):
             return "tools"
         return END
 
+    def summarize_node(state: AgentState):
+        response = llm.invoke([
+            SystemMessage(content="Based on the conversation and tool results, provide a clear and concise final answer to the user's original question."),
+            *state["messages"],
+        ])
+        return {"messages": [response]}
+
     def after_critic(state: AgentState):
         last = state["messages"][-1]
         if isinstance(last, AIMessage) and "CONTINUE" in last.content.upper():
             return "model"
-        return END
+        return "summarize"
 
     graph = StateGraph(AgentState)
     graph.add_node("model", model_node)
     graph.add_node("tools", ToolNode([execute_docker]))
     graph.add_node("critic", critic_node)
+    graph.add_node("summarize", summarize_node)
 
     graph.set_entry_point("model")
     graph.add_conditional_edges("model", should_continue, {"tools": "tools", END: END})
     graph.add_edge("tools", "critic")
-    graph.add_conditional_edges("critic", after_critic, {"model": "model", END: END})
+    graph.add_conditional_edges("critic", after_critic, {"model": "model", "summarize": "summarize"})
+    graph.add_edge("summarize", END)
 
     agent = graph.compile()
     recursion_limit = max_tool_calls * 3 + 1  # model + tools + critic per round
@@ -129,8 +146,12 @@ if __name__ == "__main__":
             return " ".join(p["text"] for p in content if isinstance(p, dict) and p.get("type") == "text")
         return str(content)
 
-    last_ai = next((m for m in reversed(messages) if isinstance(m, AIMessage) and m.content), None)
-    answer = _extract_text(last_ai.content) if last_ai else (messages[-1].content if messages else "No answer generated.")
+    last_ai = next((m for m in reversed(messages) if isinstance(m, AIMessage) and m.content and getattr(m, "name", None) != "critic"), None)
+    if last_ai:
+        answer = _extract_text(last_ai.content)
+    else:
+        last_tool = next((m for m in reversed(messages) if isinstance(m, ToolMessage) and m.content), None)
+        answer = _extract_text(last_tool.content) if last_tool else "No answer generated."
 
     print("\nResult:", answer)
     if recursion_limit_hit:

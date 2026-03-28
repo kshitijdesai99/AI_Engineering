@@ -62,7 +62,7 @@ def execute_docker(code: str, packages: list[str] = None, timeout: int = 60) -> 
     host_file = os.path.join(_CODE_DIR, os.path.basename(code_file))
 
     with open(host_file, "w") as f:
-        f.write(code.strip())
+        f.write(code.replace("\\n", "\n").strip())
 
     t0 = time.time()
     try:
