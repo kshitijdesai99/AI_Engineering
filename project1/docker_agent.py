@@ -41,6 +41,7 @@ AGENT_TIMEOUT = int(os.getenv("AGENT_TIMEOUT", 120))  # total agent wall-clock t
 _DIR = os.path.dirname(os.path.abspath(__file__))
 SYSTEM_PROMPT = open(os.path.join(_DIR, "model_prompt.txt")).read().strip()
 CRITIC_PROMPT = open(os.path.join(_DIR, "critic_prompt.txt")).read().strip()
+SUMMARIZE_PROMPT = open(os.path.join(_DIR, "summarize_prompt.txt")).read().strip()
 
 class AgentState(TypedDict):
     messages: Annotated[list, operator.add]
@@ -85,7 +86,7 @@ def get_agent(provider: str, max_tool_calls: int = MAX_TOOL_CALLS):
 
     def summarize_node(state: AgentState):
         response = llm.invoke([
-            SystemMessage(content="Based on the conversation and tool results, provide a clear and concise final answer to the user's original question."),
+            SystemMessage(content=SUMMARIZE_PROMPT),
             *state["messages"],
         ])
         return {"messages": [response]}
