@@ -79,6 +79,7 @@ def execute_docker(code: str, packages: list[str] = None, timeout: int = 60) -> 
         print(f"[timing] Docker exec: {time.time() - t0:.2f}s")
 
         result = output.decode("utf-8")
+        print(f"--- Output ---\n{result.strip()}\n--------------\n")
         saved_files = [os.path.join(_OUTPUT_DIR, f) for f in os.listdir(_OUTPUT_DIR)]
         if saved_files:
             result += f"\nSaved files: {saved_files}"
