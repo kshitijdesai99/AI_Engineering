@@ -6,6 +6,7 @@ Provides isolation, memory/CPU limits, and cleanup. Used by docker_agent.py.
 import docker
 from langchain_core.tools import tool
 import os
+import time
 import uuid
 
 _BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -63,6 +64,7 @@ def execute_docker(code: str, packages: list[str] = None, timeout: int = 60) -> 
     with open(host_file, "w") as f:
         f.write(code.strip())
 
+    t0 = time.time()
     try:
         if packages:
             container.exec_run(f"uv pip install --system -q {' '.join(packages)}", stdout=True, stderr=True)
@@ -71,7 +73,12 @@ def execute_docker(code: str, packages: list[str] = None, timeout: int = 60) -> 
             f"python {code_file}", stdout=True, stderr=True, workdir="/app"
         )
         result = output.decode("utf-8")
-        saved_files = [os.path.join(_OUTPUT_DIR, f) for f in os.listdir(_OUTPUT_DIR)]
+        if exit_code != 0 and len(result) > 500:
+            result = result[:500] + "\n...[truncated]"
+        saved_files = [
+            os.path.join(_OUTPUT_DIR, f) for f in os.listdir(_OUTPUT_DIR)
+            if os.path.getmtime(os.path.join(_OUTPUT_DIR, f)) >= t0
+        ]
         if saved_files:
             result += f"\nSaved files: {saved_files}"
         return result

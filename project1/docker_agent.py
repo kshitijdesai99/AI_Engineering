@@ -12,9 +12,13 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_google_genai.chat_models import ChatGoogleGenerativeAIError
 from langchain_openai import ChatOpenAI
 from docker_tool import execute_docker
-from langchain.agents import create_agent
-from langchain_core.messages import HumanMessage, AIMessage
+from langchain_core.messages import HumanMessage, AIMessage, SystemMessage, ToolMessage
+from langgraph.graph import StateGraph, END
+from langgraph.prebuilt import ToolNode
 from langgraph.errors import GraphRecursionError
+from typing import Annotated
+from typing_extensions import TypedDict
+import operator
 
 load_dotenv()
 
@@ -34,19 +38,61 @@ PROVIDERS = {
 MAX_TOOL_CALLS = int(os.getenv("MAX_TOOL_CALLS", 3))  # max number of docker executions per query
 AGENT_TIMEOUT = int(os.getenv("AGENT_TIMEOUT", 120))  # total agent wall-clock timeout in seconds
 
-SYSTEM_PROMPT = """Generate Python code for queries, then execute with docker tool.
-1. Write complete code with imports/print()
-2. Save any plots or files to /output/ (e.g. plt.savefig('/output/plot.png'))
-3. Always pass packages=[...] with every third-party library your code imports (e.g. packages=["seaborn", "pandas"])
-4. When making HTTP requests always set headers={"User-Agent": "Mozilla/5.0"}
-5. execute_docker(code=your_code, packages=[...])
-Return execution result and any saved file paths."""
+_DIR = os.path.dirname(os.path.abspath(__file__))
+SYSTEM_PROMPT = open(os.path.join(_DIR, "model_prompt.txt")).read().strip()
+CRITIC_PROMPT = open(os.path.join(_DIR, "critic_prompt.txt")).read().strip()
+
+class AgentState(TypedDict):
+    messages: Annotated[list, operator.add]
 
 def get_agent(provider: str, max_tool_calls: int = MAX_TOOL_CALLS):
     if provider not in PROVIDERS:
         raise ValueError(f"Unknown provider '{provider}'. Available: {list(PROVIDERS)}")
-    agent = create_agent(PROVIDERS[provider](), tools=[execute_docker], system_prompt=SYSTEM_PROMPT)
-    recursion_limit = max_tool_calls * 2 + 1  # each tool call = 2 graph steps (LLM + tool)
+
+    llm = PROVIDERS[provider]()
+    llm_with_tools = llm.bind_tools([execute_docker])
+    critic_llm = PROVIDERS[provider]()
+
+    def model_node(state: AgentState):
+        messages = [SystemMessage(content=SYSTEM_PROMPT)] + state["messages"]
+        response = llm_with_tools.invoke(messages)
+        return {"messages": [response]}
+
+    def critic_node(state: AgentState):
+        last = state["messages"][-1]
+        if not isinstance(last, ToolMessage):
+            return {"messages": []}
+        verdict = critic_llm.invoke([
+            SystemMessage(content=CRITIC_PROMPT),
+            *state["messages"],
+        ])
+        verdict.name = "critic"
+        return {"messages": [verdict]}
+
+    def should_continue(state: AgentState):
+        last = state["messages"][-1]
+        if isinstance(last, AIMessage) and last.tool_calls:
+            return "tools"
+        return END
+
+    def after_critic(state: AgentState):
+        last = state["messages"][-1]
+        if isinstance(last, AIMessage) and "CONTINUE" in last.content.upper():
+            return "model"
+        return END
+
+    graph = StateGraph(AgentState)
+    graph.add_node("model", model_node)
+    graph.add_node("tools", ToolNode([execute_docker]))
+    graph.add_node("critic", critic_node)
+
+    graph.set_entry_point("model")
+    graph.add_conditional_edges("model", should_continue, {"tools": "tools", END: END})
+    graph.add_edge("tools", "critic")
+    graph.add_conditional_edges("critic", after_critic, {"model": "model", END: END})
+
+    agent = graph.compile()
+    recursion_limit = max_tool_calls * 3 + 1  # model + tools + critic per round
     return agent, recursion_limit
 
 if __name__ == "__main__":
@@ -64,9 +110,7 @@ if __name__ == "__main__":
     signal.alarm(AGENT_TIMEOUT)
     try:
         for chunk in agent.stream(
-            {"messages":[HumanMessage('''
-            vizualize how tan(x)^2 looks like
-            ''')]},
+            {"messages":[HumanMessage(open(os.path.join(_DIR, "query.txt")).read().strip())]},
             config={"recursion_limit": recursion_limit},
             stream_mode="values",
         ):
