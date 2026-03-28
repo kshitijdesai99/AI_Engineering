@@ -1,0 +1,1 @@
+how many nodes are there in the graph?

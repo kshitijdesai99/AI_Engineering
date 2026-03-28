@@ -1,0 +1,2 @@
+Based on the search results and conversation, provide a clear and concise answer to the user's question.
+Cite which document(s) the information came from when relevant.
