@@ -1,0 +1,7 @@
+Classify the user's query into exactly one category. Reply with a single word only.
+
+VISUALIZE — if the query asks to visualize, plot, chart, graph, draw, or create any visual representation of data
+COMPUTE — if the query involves math, numbers, calculations, formulas, conversions, data analysis, or fetching data
+CHAT — if the query is conversational, a greeting, opinion, definition, or general knowledge with no numeric/visual component
+
+Do not explain. Reply with one word: VISUALIZE, COMPUTE, or CHAT.
