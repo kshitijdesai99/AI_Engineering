@@ -179,6 +179,10 @@ def _relevant_sources_from_tools(state: dict) -> list[tuple[str, str]]:
     return refs
 
 
+def _has_any_tool_messages(state: dict) -> bool:
+    return any(isinstance(m, ToolMessage) for m in state.get("messages", []))
+
+
 class AgentState(TypedDict):
     messages: Annotated[list, operator.add]
     original_query: str
@@ -411,6 +415,8 @@ def get_agent(provider: str = "openai", max_tool_calls: int = MAX_TOOL_CALLS):
         last = state["messages"][-1]
         if isinstance(last, AIMessage) and last.tool_calls:
             return "search"
+        if isinstance(last, AIMessage) and not _has_any_tool_messages(state):
+            return "force_search"
         prev = state["messages"][-2] if len(state["messages"]) > 1 else None
         if (
             isinstance(last, AIMessage)
@@ -422,6 +428,18 @@ def get_agent(provider: str = "openai", max_tool_calls: int = MAX_TOOL_CALLS):
         ):
             return "retry_model"
         return "summarize"
+
+    def force_search_node(state: AgentState):
+        original_query = state.get("original_query") or state.get("rewritten_query") or ""
+        search_hint = (
+            "You must search the corpus before answering. "
+            "Call grep_corpus first using the user question and relevant keywords. "
+            f"Original question: {original_query}"
+        )
+        return {
+            "messages": [HumanMessage(content=search_hint)],
+            "forced_tool_retry_count": 0,
+        }
 
     def after_critic(state: AgentState):
         tool_call_count = sum(1 for m in state["messages"] if isinstance(m, ToolMessage))
@@ -458,14 +476,16 @@ def get_agent(provider: str = "openai", max_tool_calls: int = MAX_TOOL_CALLS):
     graph.add_node("search", ToolNode(all_tools))
     graph.add_node("critic", critic_node)
     graph.add_node("broaden_scope", broaden_scope_node)
+    graph.add_node("force_search", force_search_node)
     graph.add_node("summarize", summarize_node)
 
     graph.set_entry_point("rewrite")
     graph.add_edge("rewrite", "model")
-    graph.add_conditional_edges("model", should_search, {"search": "search", "retry_model": "model", "summarize": "summarize"})
+    graph.add_conditional_edges("model", should_search, {"search": "search", "force_search": "force_search", "retry_model": "model", "summarize": "summarize"})
     graph.add_edge("search", "critic")
     graph.add_conditional_edges("critic", after_critic, {"model": "model", "broaden_scope": "broaden_scope", "summarize": "summarize"})
     graph.add_edge("broaden_scope", "model")
+    graph.add_edge("force_search", "model")
     graph.add_edge("summarize", END)
 
     agent = graph.compile()

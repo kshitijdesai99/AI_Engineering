@@ -1,1 +1,7 @@
-At what scattering angle does the number of scattered particles drop below 10^2 in Rutherford's alpha particle scattering experiment?
+A metal bar 70 cm long and
+4.00 kg in mass supported on two knife-
+edges placed 10 cm from each end. A 6.00
+kg load is suspended at 30 cm from one
+end. Find the reactions at the knife-edges.
+(Assume  the  bar  to  be  of  uniform  cross
+section and homogeneous.) what is the answer to this question in my text book?
