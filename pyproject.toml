@@ -10,4 +10,5 @@ dependencies = [
     "langchain-openai>=0.3.0",
     "docker>=6.0.0",
     "python-dotenv>=1.0.0",
+    "pypdf>=6.9.2",
 ]

@@ -19,9 +19,9 @@ PER QUERY:
 
 ### Phase 1: Text extraction cache
 - [x] Task 1.1 — `build_cache.py`: recursively scan `input/` for PDFs
-- [ ] Task 1.2 — Extract text per page using `pypdf`, skip empty pages
-- [ ] Task 1.3 — Store as `corpus.json`: array of `{source, page, text}`
-- [ ] Task 1.4 — Add a quality check: flag pages with <20 words as `low_text`
+- [x] Task 1.2 — Extract text per page using `pypdf`, skip empty pages
+- [x] Task 1.3 — Store as `corpus.json`: array of `{source, page, text}`
+- [x] Task 1.4 — Add a quality check: flag pages with <20 words as `low_text`
 - [ ] Task 1.5 — Test on NCERT PDFs, verify output looks sane
 
 ### Phase 2: Grep tool
