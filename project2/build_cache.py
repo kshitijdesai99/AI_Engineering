@@ -14,6 +14,11 @@ import os
 import sys
 from time import perf_counter
 
+try:
+    import pypdf
+except ImportError as exc:
+    raise SystemExit("pypdf is required: pip install pypdf") from exc
+
 _DIR = os.path.dirname(os.path.abspath(__file__))
 DEFAULT_INPUT = os.path.join(_DIR, "input")
 DEFAULT_OUTPUT = os.path.join(_DIR, "corpus.json")
@@ -33,8 +38,6 @@ def find_pdfs(input_dir: str) -> list[str]:
 
 def extract_pages(pdf_path: str, input_dir: str) -> list[dict]:
     """Extract text from each page of a PDF. Returns list of page chunks."""
-    import pypdf
-
     chunks = []
     rel_path = os.path.relpath(pdf_path, input_dir)
 
@@ -70,7 +73,7 @@ def extract_pages(pdf_path: str, input_dir: str) -> list[dict]:
 def build_cache(input_dir: str, output_path: str, force: bool = False):
     if os.path.exists(output_path) and not force:
         print(f"corpus.json already exists. Use --force to rebuild.")
-        sys.exit(1)
+        return
 
     pdfs = find_pdfs(input_dir)
     if not pdfs:
@@ -104,8 +107,8 @@ def build_cache(input_dir: str, output_path: str, force: bool = False):
 
     elapsed = round(perf_counter() - t0, 2)
 
-    with open(output_path, "w", encoding="utf-8") as file:
-        json.dump(corpus, file, ensure_ascii=False, indent=2)
+    with open(output_path, "w", encoding="utf-8") as fp:
+        json.dump(corpus, fp, ensure_ascii=False, indent=2)
 
     file_size_mb = round(os.path.getsize(output_path) / (1024 * 1024), 2)
 

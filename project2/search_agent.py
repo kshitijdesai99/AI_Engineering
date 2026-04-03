@@ -25,9 +25,9 @@ from langgraph.prebuilt import ToolNode
 from typing_extensions import TypedDict
 
 try:
-    from search_tool import grep_corpus, read_pages, list_documents, render_page_image, _load_corpus
+    from search_tool import grep_corpus, read_pages, list_documents, render_page_image, _load_corpus_index
 except ImportError:
-    from project2.search_tool import grep_corpus, read_pages, list_documents, render_page_image, _load_corpus
+    from project2.search_tool import grep_corpus, read_pages, list_documents, render_page_image, _load_corpus_index
 
 try:
     from langchain_google_genai import ChatGoogleGenerativeAI
@@ -69,14 +69,9 @@ _ANSWER_HINT_TERMS = {
     "answer", "answers", "reaction", "reactions", "support", "supports", "result", "results",
     "therefore the", "thus the", "hence the",
 }
-_TOOL_ARG_ALIASES = {
-    "query=": "query",
-    "source=": "source",
-    "page=": "page",
-    "question=": "question",
-    "scope=": "scope",
-    "max_results=": "max_results",
-}
+# Aliases for read_pages argument name variants produced by some models.
+# (The "=" suffix aliases were removed — dict keys from LangChain tool calls
+# never carry trailing "=" characters, so those mappings were dead code.)
 _READ_PAGES_ARG_ALIASES = {
     "start_page=": "start_page",
     "end_page=": "end_page",
@@ -114,27 +109,12 @@ if ChatGoogleGenerativeAI is not None:
 MAX_TOOL_CALLS = int(os.getenv("MAX_TOOL_CALLS", 6))
 _DIR = os.path.dirname(os.path.abspath(__file__))
 
-VISION_PROMPT = """You are reading a PDF page rendered as an image. Extract ALL text and data from this page.
-If the page contains tables, reproduce them in a clear text format with aligned columns.
-If the page contains diagrams or figures, describe what they show.
-Be thorough — capture every piece of text, number, label, and caption on the page."""
-
-VISION_QA_PROMPT = """You are answering a user question from a single PDF page image.
-
-Instructions:
-- Read the page visually and answer the specific question using only what is visible on the page.
-- If the answer depends on a chart, graph, or table, extract the relevant axes, labels, scale, and approximate values.
-- If the user asks for a threshold or crossing point (for example, where a value drops below another value), estimate that crossing from the chart and say it is approximate.
-- If the page does not contain enough visible information to answer, say so explicitly.
-- Do not give generic commentary. Produce this exact format:
-
-Answer: <best answer, or 'unavailable from this page image'>
-Evidence: <short evidence summary from the page, including chart/table details if relevant>
-Confidence: <high|medium|low>"""
-
 def _load_prompt(filename: str) -> str:
     with open(os.path.join(_DIR, filename), "r", encoding="utf-8") as file:
         return file.read().strip()
+
+VISION_PROMPT = _load_prompt("vision_extract_prompt.txt")
+VISION_QA_PROMPT = _load_prompt("vision_qa_prompt.txt")
 
 MODEL_PROMPT = _load_prompt("model_prompt.txt")
 SUMMARIZE_PROMPT = _load_prompt("summarize_prompt.txt")
@@ -165,9 +145,6 @@ def _repair_tool_args(tool_calls: list[dict]) -> list[dict]:
     repaired: list[dict] = []
     for call in tool_calls or []:
         args = dict(call.get("args", {}))
-        for wrong_key, correct_key in _TOOL_ARG_ALIASES.items():
-            if correct_key not in args and wrong_key in args:
-                args[correct_key] = args.pop(wrong_key)
         if call.get("name") == "read_pages":
             for wrong_key, correct_key in _READ_PAGES_ARG_ALIASES.items():
                 if correct_key not in args and wrong_key in args:
@@ -491,7 +468,7 @@ def get_agent(provider: str = "openai", max_tool_calls: int = MAX_TOOL_CALLS):
                 query = line.split(":", 1)[1].strip()
         query = _compose_search_query(query, original_text)
         if scope:
-            valid_scopes = {c["source"].split("/")[0] for c in _load_corpus()}
+            valid_scopes = set(_load_corpus_index().scopes.keys())
             if scope not in valid_scopes:
                 scope = ""
         if scope:
@@ -651,12 +628,15 @@ def get_agent(provider: str = "openai", max_tool_calls: int = MAX_TOOL_CALLS):
         ]
         response = llm.invoke(messages)
         if not _has_citation(_content_text(response.content)):
+            # Inject the bad response so the model can see what needs fixing.
             response = llm.invoke([
                 SystemMessage(
                     content=SUMMARIZE_PROMPT
                     + "\n\nYour previous answer lacked required citations. Rewrite it and include document name and page number for every factual claim."
                 ),
                 *state["messages"],
+                response,
+                HumanMessage(content="Rewrite with a citation (document name and page number) for every factual claim."),
             ])
         return {"messages": [response]}
 
@@ -765,6 +745,7 @@ def get_agent(provider: str = "openai", max_tool_calls: int = MAX_TOOL_CALLS):
     graph.add_edge("summarize", END)
 
     agent = graph.compile()
+    # 5 graph edges per tool call cycle (model→search→critic→route→...) plus headroom; minimum 30.
     recursion_limit = max(max_tool_calls * 5 + 6, 30)
     return agent, recursion_limit
 
@@ -773,7 +754,8 @@ if __name__ == "__main__":
     provider = sys.argv[1] if len(sys.argv) > 1 else "openai"
     agent, recursion_limit = get_agent(provider)
 
-    query = open(os.path.join(_DIR, "query.txt")).read().strip()
+    with open(os.path.join(_DIR, "query.txt"), encoding="utf-8") as fp:
+        query = fp.read().strip()
     print(f"\nQuery: {query}\n")
 
     messages = []

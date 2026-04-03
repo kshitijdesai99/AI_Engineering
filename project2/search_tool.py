@@ -5,14 +5,16 @@ Three tools for the agent:
   - read_pages: reads full text for a page range from a specific document
   - list_documents: lists all documents in the corpus
 """
-from collections import Counter
-from dataclasses import dataclass
-from functools import lru_cache
+import base64
+import json
 import math
 import os
 import re
-import json
-import base64
+import sys
+from collections import Counter
+from dataclasses import dataclass
+from functools import lru_cache
+
 from langchain_core.tools import tool
 
 _BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -90,11 +92,6 @@ def _tokenize(text: str) -> list[str]:
 
 def _is_numeric_token(token: str) -> bool:
     return any(char.isdigit() for char in token)
-
-
-def _load_corpus() -> list[dict]:
-    """Load corpus.json into memory (cached after first call)."""
-    return _load_corpus_index().pages
 
 
 @lru_cache(maxsize=1)
@@ -288,7 +285,10 @@ def render_page_image(source: str, page: int, dpi: int = 200) -> str | None:
         return None
     try:
         import fitz  # pymupdf
+    except ImportError:
+        return None
 
+    try:
         doc = fitz.open(pdf_path)
         try:
             if page < 1 or page > len(doc):
@@ -298,9 +298,8 @@ def render_page_image(source: str, page: int, dpi: int = 200) -> str | None:
         finally:
             doc.close()
         return base64.b64encode(img_bytes).decode("utf-8")
-    except ImportError:
-        return None
-    except Exception:
+    except Exception as exc:
+        print(f"[render_page_image] failed for {source} p.{page}: {exc}", file=sys.stderr)
         return None
 
 
@@ -339,16 +338,16 @@ def _merge_hits(hits: list[dict], max_page_by_source: dict[str, int], context: i
             if can_merge:
                 ranges[-1]["end_page"] = max(ranges[-1]["end_page"], end)
                 ranges[-1]["score"] += p["score"]
-                if p["score"] > ranges[-1]["best_score"]:
+                if p["score"] > ranges[-1]["top_score"]:
+                    ranges[-1]["top_score"] = p["score"]
                     ranges[-1]["best_snippet"] = p["snippet"]
-                    ranges[-1]["best_score"] = p["score"]
             else:
                 ranges.append({
                     "source": source,
                     "start_page": start,
                     "end_page": end,
                     "score": p["score"],
-                    "best_score": p["score"],
+                    "top_score": p["score"],
                     "best_snippet": p["snippet"],
                 })
 
@@ -419,8 +418,9 @@ def grep_corpus(query: str, scope: str = "", max_results: int = 5) -> str:
 
     top_pages = sorted(hits, key=lambda x: (-x["score"], x["source"], x["page"]))[:8]
     merged = _merge_hits(hits, index.max_page_by_source)[:max_results]
+    unique_hit_docs = len(set(h["source"] for h in hits))
 
-    lines = [f"Found {len(hits)} page hits across {len(set(h['source'] for h in hits))} documents{scope_msg}.\n"]
+    lines = [f"Found {len(hits)} page hits across {unique_hit_docs} documents{scope_msg}.\n"]
 
     lines.append("Top individual pages:")
     for p in top_pages:
