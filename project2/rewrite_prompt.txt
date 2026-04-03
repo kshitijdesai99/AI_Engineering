@@ -6,6 +6,7 @@ Rules:
 - Add synonyms or related terms that might appear in textbook language (e.g. "electricity" → also "current", "voltage", "charge").
 - Remove filler words (what, how, explain, tell me about).
 - If the query references a specific topic, include the technical term.
+- If the user pasted a worked problem, example, or exercise with specific numbers, preserve those exact numbers, object names, and relations in the rewritten query. Do not collapse it into generic topic words only.
 - Based on the document listing, pick the most relevant scope (folder) for the query topic. If the topic could plausibly live in multiple scopes, or you are not confident, leave scope empty.
 - Prefer leaving scope empty over choosing a weak or uncertain scope.
 - Return your answer in exactly this format (two lines, nothing else):

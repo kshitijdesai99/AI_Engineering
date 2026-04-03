@@ -8,11 +8,11 @@ Usage:
 
 Requires: pip install pypdf
 """
+import argparse
+import json
 import os
 import sys
-import json
-import argparse
-import time
+from time import perf_counter
 
 _DIR = os.path.dirname(os.path.abspath(__file__))
 DEFAULT_INPUT = os.path.join(_DIR, "input")
@@ -21,11 +21,13 @@ DEFAULT_OUTPUT = os.path.join(_DIR, "corpus.json")
 
 def find_pdfs(input_dir: str) -> list[str]:
     """Recursively find all PDF files under input_dir."""
-    pdfs = []
+    pdfs: list[str] = []
     for root, _, files in os.walk(input_dir):
-        for f in sorted(files):
-            if f.lower().endswith(".pdf"):
-                pdfs.append(os.path.join(root, f))
+        pdfs.extend(
+            os.path.join(root, filename)
+            for filename in sorted(files)
+            if filename.lower().endswith(".pdf")
+        )
     return pdfs
 
 
@@ -81,11 +83,10 @@ def build_cache(input_dir: str, output_path: str, force: bool = False):
     print(f"  Output: {output_path}")
     print(f"{'='*60}\n")
 
-    t0 = time.time()
-    corpus = []
+    t0 = perf_counter()
+    corpus: list[dict] = []
     total_pages = 0
     low_text_pages = 0
-    skipped_empty = 0
 
     for i, pdf_path in enumerate(pdfs, 1):
         rel = os.path.relpath(pdf_path, input_dir)
@@ -101,10 +102,10 @@ def build_cache(input_dir: str, output_path: str, force: bool = False):
         print(f"  → {page_count} pages" + (f" ({low} low-text)" if low else ""))
         corpus.extend(chunks)
 
-    elapsed = round(time.time() - t0, 2)
+    elapsed = round(perf_counter() - t0, 2)
 
-    with open(output_path, "w", encoding="utf-8") as f:
-        json.dump(corpus, f, ensure_ascii=False, indent=2)
+    with open(output_path, "w", encoding="utf-8") as file:
+        json.dump(corpus, file, ensure_ascii=False, indent=2)
 
     file_size_mb = round(os.path.getsize(output_path) / (1024 * 1024), 2)
 
