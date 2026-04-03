@@ -2,12 +2,12 @@
   "provider": "openai",
   "file": "evals/test.csv",
   "mode": "parallel (3 workers)",
-  "timestamp": "2026-04-02T22:46:15.827829",
+  "timestamp": "2026-04-03T13:28:47.397818",
   "total": 20,
   "correct": 20,
   "accuracy": 1.0,
-  "wall_time_s": 31.02,
-  "avg_latency_s": 4.49,
+  "wall_time_s": 31.53,
+  "avg_latency_s": 4.58,
   "avg_tool_calls": 1.0,
   "tool_used": 20,
   "tool_correct": 20,
@@ -26,7 +26,7 @@
       "tool_correct": true,
       "recursion_hit": false,
       "timed_out": false,
-      "latency_s": 6.71
+      "latency_s": 9.04
     },
     {
       "question": "What is 72 km/hr in m/s?",
@@ -40,13 +40,13 @@
       "tool_correct": true,
       "recursion_hit": false,
       "timed_out": false,
-      "latency_s": 5.26
+      "latency_s": 8.07
     },
     {
       "question": "What is the factorial of 12?",
       "expected": "479001600",
       "extracted": "479001600.",
-      "agent_raw": "The factorial of 12 is 479001600.",
+      "agent_raw": "The factorial of 12 is 479,001,600.",
       "match": true,
       "tool_calls": 1,
       "errors": 0,
@@ -54,7 +54,7 @@
       "tool_correct": true,
       "recursion_hit": false,
       "timed_out": false,
-      "latency_s": 6.11
+      "latency_s": 8.4
     },
     {
       "question": "What is the sum of first 100 natural numbers?",
@@ -68,7 +68,7 @@
       "tool_correct": true,
       "recursion_hit": false,
       "timed_out": false,
-      "latency_s": 4.8
+      "latency_s": 3.93
     },
     {
       "question": "What is 3^15?",
@@ -82,7 +82,7 @@
       "tool_correct": true,
       "recursion_hit": false,
       "timed_out": false,
-      "latency_s": 4.67
+      "latency_s": 3.92
     },
     {
       "question": "What is the square root of 2025?",
@@ -96,7 +96,7 @@
       "tool_correct": true,
       "recursion_hit": false,
       "timed_out": false,
-      "latency_s": 4.1
+      "latency_s": 3.29
     },
     {
       "question": "What is the 20th Fibonacci number?",
@@ -110,7 +110,7 @@
       "tool_correct": true,
       "recursion_hit": false,
       "timed_out": false,
-      "latency_s": 4.16
+      "latency_s": 3.88
     },
     {
       "question": "What is 25% of 480?",
@@ -124,7 +124,7 @@
       "tool_correct": true,
       "recursion_hit": false,
       "timed_out": false,
-      "latency_s": 3.19
+      "latency_s": 2.97
     },
     {
       "question": "What is the greatest common divisor of 91 and 130?",
@@ -138,7 +138,7 @@
       "tool_correct": true,
       "recursion_hit": false,
       "timed_out": false,
-      "latency_s": 3.72
+      "latency_s": 3.46
     },
     {
       "question": "What is the least common multiple of 18 and 24?",
@@ -152,13 +152,13 @@
       "tool_correct": true,
       "recursion_hit": false,
       "timed_out": false,
-      "latency_s": 5.57
+      "latency_s": 3.64
     },
     {
       "question": "What is the area of a circle with radius 12? (round to 3 decimal places)",
       "expected": "452.389",
       "extracted": "452.389",
-      "agent_raw": "The area of a circle with a radius of 12 is approximately 452.389 (rounded to three decimal places).",
+      "agent_raw": "The area of a circle with a radius of 12 is approximately 452.389 square units.",
       "match": true,
       "tool_calls": 1,
       "errors": 0,
@@ -166,7 +166,7 @@
       "tool_correct": true,
       "recursion_hit": false,
       "timed_out": false,
-      "latency_s": 4.36
+      "latency_s": 4.41
     },
     {
       "question": "What is the volume of a sphere with radius 5? (round to 3 decimal places)",
@@ -180,13 +180,13 @@
       "tool_correct": true,
       "recursion_hit": false,
       "timed_out": false,
-      "latency_s": 4.65
+      "latency_s": 3.94
     },
     {
       "question": "What is cos(60 degrees) in radians? (round to 3 decimal places)",
       "expected": "0.500",
-      "extracted": "0.500",
-      "agent_raw": "The value of cos(60 degrees), rounded to three decimal places, is 0.500.",
+      "extracted": "0.5",
+      "agent_raw": "The value of cos(60 degrees) is 0.5 when rounded to three decimal places.",
       "match": true,
       "tool_calls": 1,
       "errors": 0,
@@ -194,13 +194,13 @@
       "tool_correct": true,
       "recursion_hit": false,
       "timed_out": false,
-      "latency_s": 3.91
+      "latency_s": 5.05
     },
     {
       "question": "What is natural log of e?",
       "expected": "1.0",
-      "extracted": "1.",
-      "agent_raw": "The natural log of e is 1.",
+      "extracted": "1.0",
+      "agent_raw": "The natural log of e is 1.0.",
       "match": true,
       "tool_calls": 1,
       "errors": 0,
@@ -208,7 +208,7 @@
       "tool_correct": true,
       "recursion_hit": false,
       "timed_out": false,
-      "latency_s": 4.83
+      "latency_s": 5.06
     },
     {
       "question": "What is the sum of digits of 987654?",
@@ -222,13 +222,13 @@
       "tool_correct": true,
       "recursion_hit": false,
       "timed_out": false,
-      "latency_s": 3.62
+      "latency_s": 3.86
     },
     {
       "question": "What is 5^8 + 2^10?",
       "expected": "391649",
       "extracted": "391649.",
-      "agent_raw": "The value of \\( 5^8 + 2^{10} \\) is 391649.",
+      "agent_raw": "The result of \\( 5^8 + 2^{10} \\) is 391649.",
       "match": true,
       "tool_calls": 1,
       "errors": 0,
@@ -236,13 +236,13 @@
       "tool_correct": true,
       "recursion_hit": false,
       "timed_out": false,
-      "latency_s": 3.98
+      "latency_s": 3.54
     },
     {
       "question": "What is the perimeter of a rectangle with length 15 and width 9?",
       "expected": "48",
       "extracted": "48.",
-      "agent_raw": "The perimeter of the rectangle with length 15 and width 9 is 48.",
+      "agent_raw": "The perimeter of a rectangle with length 15 and width 9 is 48.",
       "match": true,
       "tool_calls": 1,
       "errors": 0,
@@ -250,7 +250,7 @@
       "tool_correct": true,
       "recursion_hit": false,
       "timed_out": false,
-      "latency_s": 3.87
+      "latency_s": 3.96
     },
     {
       "question": "What is the average of first 30 even numbers?",
@@ -264,7 +264,7 @@
       "tool_correct": true,
       "recursion_hit": false,
       "timed_out": false,
-      "latency_s": 4.6
+      "latency_s": 4.38
     },
     {
       "question": "What is 25 choose 4?",
@@ -278,7 +278,7 @@
       "tool_correct": true,
       "recursion_hit": false,
       "timed_out": false,
-      "latency_s": 3.65
+      "latency_s": 3.32
     },
     {
       "question": "What is the remainder when 1234 is divided by 13?",
@@ -292,7 +292,7 @@
       "tool_correct": true,
       "recursion_hit": false,
       "timed_out": false,
-      "latency_s": 3.99
+      "latency_s": 3.5
     }
   ]
 }

@@ -1,0 +1,21 @@
+Model Prompt (model_prompt.txt):
+    Chain-of-Thought: Structured step-by-step instructions for code execution
+    Few-Shot Learning: 3 concrete examples showing input-code-output patterns
+    Role-Based Prompting: "You are a helpful assistant with access to..."
+    Rule-Based Constraints: Clear "Rules" section with specific requirements
+    Output Formatting: Explicit instruction to print final answer as last line
+
+Critic Prompt (critic_prompt.txt):
+    Binary Classification: Simple DONE/CONTINUE decision format
+    Minimalist Design: Extremely concise with no explanations
+    Task Completion Focus: Clear criteria for when to stop vs continue
+
+Router Prompt (router_prompt.txt):
+    Classification-Based Routing: Single-word category decision
+    Task Categorization: VISUALIZE/COMPUTE/CHAT classification
+    Decision Tree Logic: Clear criteria for each category
+    Minimalist Output: One-word response requirement
+
+Summarize Prompt (summarize_prompt.txt):
+    Instruction Following: Direct command to provide final answer
+    Context Integration: References "conversation and tool results"
