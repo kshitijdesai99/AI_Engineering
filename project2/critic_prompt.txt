@@ -4,6 +4,8 @@ Consider:
 1. Did the agent actually READ the relevant pages (using read_pages), or did it only search (grep_corpus)?
 2. Does the answer fully address the user's question with specific information from the documents?
 3. If the search found no results, should the agent try different keywords?
+4. If the read text is flagged as figure/table-dependent, or it mentions a figure/graph/table that appears necessary to answer the question, the agent is NOT done until it extracts that figure/table content or clearly establishes that the exact value is unavailable from text.
+5. If the user asks for an exact threshold, count, plotted value, or angle and the retrieved text only references a figure without giving that exact value, reply CONTINUE.
 
 Reply with exactly one word:
 - DONE if the question is fully answered with document evidence

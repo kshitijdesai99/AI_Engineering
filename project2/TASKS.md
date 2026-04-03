@@ -31,20 +31,20 @@ PER QUERY:
 
 ### Phase 3: Reader sub-agent
 - [x] Task 3.1 — `read_pages(source, start_page, end_page)` tool: returns full text for a page range from corpus.json
-- [ ] Task 3.2 — Reader agent prompt: given a query + page text, extract the relevant snippet
-- [ ] Task 3.3 — Reader decides: is extracted text clear enough, or is this a table/garbled layout?
-- [ ] Task 3.4 — If table/garbled: `render_page_image(source, page)` tool renders PDF page as image
-- [ ] Task 3.5 — Send page image to vision model, get structured text back
-- [ ] Task 3.6 — Reader returns: `{snippet, source, page, method: "text"|"vision"}`
+- [x] Task 3.2 — Reader agent prompt: given a query + page text, extract the relevant snippet
+- [x] Task 3.3 — Reader decides: is extracted text clear enough, or is this a table/garbled layout?
+- [x] Task 3.4 — If table/garbled: `render_page_image(source, page)` tool renders PDF page as image
+- [x] Task 3.5 — Send page image to vision model, get structured text back
+- [x] Task 3.6 — Reader returns: `{snippet, source, page, method: "text"|"vision"}`
 
 ### Phase 4: Agent orchestration (LangGraph)
-- [ ] Task 4.1 — Rewrite node: rewrites vague query into search keywords
-- [ ] Task 4.2 — Grep node: calls grep_corpus, gets hit locations
-- [ ] Task 4.3 — Reader dispatch: spawn reader sub-agents (parallel, capped at 5)
-- [ ] Task 4.4 — Synthesize node: final agent gets all snippets, produces answer
-- [ ] Task 4.5 — Critic node: judges answer quality, decides DONE or RETRY
-- [ ] Task 4.6 — RETRY path: critic suggests new keywords, loops back to grep
-- [ ] Task 4.7 — Summarize node: final answer with citations (file, page, section)
+- [x] Task 4.1 — Rewrite node: rewrites vague query into search keywords
+- [x] Task 4.2 — Grep node: calls grep_corpus, gets hit locations
+- [x] Task 4.3 — Reader dispatch: agent calls read_pages or read_page_vision based on text quality
+- [x] Task 4.4 — Synthesize node: final agent gets all snippets, produces answer
+- [x] Task 4.5 — Critic node: judges answer quality, decides DONE or RETRY
+- [x] Task 4.6 — RETRY path: critic suggests new keywords/scope, loops back to grep
+- [x] Task 4.7 — Summarize node: final answer with citations (file, page, section)
 
 ### Phase 5: Eval harness
 - [ ] Task 5.1 — Create `evals/` folder with train.csv and test.csv

@@ -8,9 +8,11 @@ Three tools for the agent:
 import os
 import re
 import json
+import base64
 from langchain_core.tools import tool
 
 _BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+_INPUT_DIR = os.path.join(_BASE_DIR, "input")
 _CORPUS_PATH = os.path.join(_BASE_DIR, "corpus.json")
 
 _corpus_cache: list[dict] | None = None
@@ -26,6 +28,43 @@ def _load_corpus() -> list[dict]:
     with open(_CORPUS_PATH, "r", encoding="utf-8") as f:
         _corpus_cache = json.load(f)
     return _corpus_cache
+
+
+def _extract_keywords(query: str) -> list[str]:
+    """Extract non-numeric keywords from a query, preserving order."""
+    seen: set[str] = set()
+    keywords: list[str] = []
+    for kw in re.findall(r"[A-Za-z][A-Za-z0-9]*", query.lower()):
+        if len(kw) <= 1 or kw in seen:
+            continue
+        seen.add(kw)
+        keywords.append(kw)
+    return keywords
+
+
+def render_page_image(source: str, page: int, dpi: int = 200) -> str | None:
+    """
+    Render a single PDF page as a base64-encoded PNG image.
+    Returns base64 string or None if rendering fails.
+    Requires: pip install pymupdf
+    """
+    pdf_path = os.path.join(_INPUT_DIR, source)
+    if not os.path.exists(pdf_path):
+        return None
+    try:
+        import fitz  # pymupdf
+        doc = fitz.open(pdf_path)
+        if page < 1 or page > len(doc):
+            doc.close()
+            return None
+        pix = doc[page - 1].get_pixmap(dpi=dpi)
+        img_bytes = pix.tobytes("png")
+        doc.close()
+        return base64.b64encode(img_bytes).decode("utf-8")
+    except ImportError:
+        return None
+    except Exception:
+        return None
 
 
 MAX_RANGE_PAGES = 5  # never merge into ranges larger than this
@@ -124,7 +163,7 @@ def grep_corpus(query: str, scope: str = "", max_results: int = 5) -> str:
     else:
         pool = corpus
 
-    keywords = [kw for kw in re.findall(r'\w+', query.lower()) if len(kw) > 1]
+    keywords = _extract_keywords(query)
     if not keywords:
         return "No valid search keywords provided."
 
@@ -200,8 +239,11 @@ def read_pages(source: str, start_page: int, end_page: int = 0) -> str:
     sections = []
     for p in pages:
         low_tag = " [LOW TEXT - may need vision]" if p.get("low_text") else ""
+        figure_tag = ""
+        if re.search(r"(figs?\.?|figure|table|graph)", p["text"], re.IGNORECASE):
+            figure_tag = " [HAS FIGURE/TABLE REFERENCE - consider vision if answer depends on plotted or tabulated values]"
         sections.append(
-            f"--- [{p['source']}] Page {p['page']} ({p['word_count']} words){low_tag} ---\n"
+            f"--- [{p['source']}] Page {p['page']} ({p['word_count']} words){low_tag}{figure_tag} ---\n"
             f"{p['text']}"
         )
 
