@@ -1,11 +1,19 @@
 """
-Agentic search agent that routes queries to either document search or direct LLM answer.
-Uses LangGraph with: router -> (search | direct) -> summarize
+Agentic document search agent.
+Uses corpus.json (pre-extracted PDF text) for fast grep-style search.
+
+Architecture:
+    query → rewrite → model → grep_corpus → critic
+                                  ↓ CONTINUE
+                              model → read_pages → critic
+                                  ↓ DONE
+                              summarize (with citations) → END
 """
 import sys
 import os
 from dotenv import load_dotenv
 from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_google_genai.chat_models import ChatGoogleGenerativeAIError
 from langchain_openai import ChatOpenAI
 from langchain_core.messages import HumanMessage, AIMessage, SystemMessage, ToolMessage
 from langgraph.graph import StateGraph, END
@@ -15,7 +23,7 @@ from typing import Annotated
 from typing_extensions import TypedDict
 import operator
 
-from search_tool import search_documents, list_documents, extract_code_patterns
+from search_tool import grep_corpus, read_pages, list_documents
 
 load_dotenv()
 
@@ -32,18 +40,32 @@ PROVIDERS = {
     ),
 }
 
+MAX_TOOL_CALLS = int(os.getenv("MAX_TOOL_CALLS", 6))
 _DIR = os.path.dirname(os.path.abspath(__file__))
-TOOLS = [search_documents, list_documents, extract_code_patterns]
 
-MODEL_PROMPT = open(os.path.join(_DIR, "model_prompt.txt")).read().strip()
-CRITIC_PROMPT = open(os.path.join(_DIR, "critic_prompt.txt")).read().strip()
-SUMMARIZE_PROMPT = open(os.path.join(_DIR, "summarize_prompt.txt")).read().strip()
-REWRITE_PROMPT = open(os.path.join(_DIR, "rewrite_prompt.txt")).read().strip()
+TOOLS = [grep_corpus, read_pages, list_documents]
+
+def _load_prompt(filename: str) -> str:
+    return open(os.path.join(_DIR, filename)).read().strip()
+
+MODEL_PROMPT = _load_prompt("model_prompt.txt")
+CRITIC_PROMPT = _load_prompt("critic_prompt.txt")
+SUMMARIZE_PROMPT = _load_prompt("summarize_prompt.txt")
+REWRITE_PROMPT = _load_prompt("rewrite_prompt.txt")
+
+
+def _content_text(content) -> str:
+    """Safely extract text from message content (handles str and list forms)."""
+    if isinstance(content, list):
+        return " ".join(p["text"] for p in content if isinstance(p, dict) and p.get("type") == "text")
+    return str(content) if content else ""
+
 
 class AgentState(TypedDict):
     messages: Annotated[list, operator.add]
 
-def get_agent(provider: str = "openai", max_tool_calls: int = int(os.getenv("MAX_TOOL_CALLS", 3))):
+
+def get_agent(provider: str = "openai", max_tool_calls: int = MAX_TOOL_CALLS):
     if provider not in PROVIDERS:
         raise ValueError(f"Unknown provider '{provider}'. Available: {list(PROVIDERS)}")
 
@@ -52,17 +74,15 @@ def get_agent(provider: str = "openai", max_tool_calls: int = int(os.getenv("MAX
     critic_llm = PROVIDERS[provider]()
 
     def rewrite_node(state: AgentState):
-        from search_tool import _list_documents, _read_file
-        doc_summaries = []
-        for p in _list_documents():
-            fname = os.path.basename(p)
-            lines = [l.strip() for l in _read_file(p).split("\n") if l.strip()]
-            preview = " | ".join(lines[:3])[:200]
-            doc_summaries.append(f"- {fname}: {preview}")
-        context = "Available documents:\n" + "\n".join(doc_summaries) + "\n\n" if doc_summaries else ""
+        # get document listing for context
+        doc_list = list_documents.invoke({})
         original = state["messages"][-1]
-        rewritten = llm.invoke([SystemMessage(content=context + REWRITE_PROMPT), original])
-        return {"messages": [HumanMessage(content=rewritten.content)]}
+        rewritten = llm.invoke([
+            SystemMessage(content=doc_list + "\n\n" + REWRITE_PROMPT),
+            original,
+        ])
+        rewritten_text = _content_text(rewritten.content)
+        return {"messages": [HumanMessage(content=rewritten_text)]}
 
     def model_node(state: AgentState):
         messages = [SystemMessage(content=MODEL_PROMPT)] + state["messages"]
@@ -95,7 +115,7 @@ def get_agent(provider: str = "openai", max_tool_calls: int = int(os.getenv("MAX
 
     def after_critic(state: AgentState):
         last = state["messages"][-1]
-        if isinstance(last, AIMessage) and "CONTINUE" in last.content.upper():
+        if isinstance(last, AIMessage) and "CONTINUE" in _content_text(last.content).upper():
             return "model"
         return "summarize"
 
@@ -114,14 +134,17 @@ def get_agent(provider: str = "openai", max_tool_calls: int = int(os.getenv("MAX
     graph.add_edge("summarize", END)
 
     agent = graph.compile()
-    recursion_limit = max_tool_calls * 3 + 1
+    recursion_limit = max_tool_calls * 3 + 2
     return agent, recursion_limit
+
 
 if __name__ == "__main__":
     provider = sys.argv[1] if len(sys.argv) > 1 else "openai"
     agent, recursion_limit = get_agent(provider)
 
     query = open(os.path.join(_DIR, "query.txt")).read().strip()
+    print(f"\nQuery: {query}\n")
+
     messages = []
     try:
         for chunk in agent.stream(
@@ -131,18 +154,16 @@ if __name__ == "__main__":
         ):
             messages = chunk["messages"]
     except GraphRecursionError:
-        pass
+        print("[Note] Recursion limit reached.")
+    except (ValueError, ChatGoogleGenerativeAIError) as e:
+        print(f"[Provider Error] {e}")
 
-    llm_summarize = PROVIDERS[provider]()
-    last_ai = next((m for m in reversed(messages) if isinstance(m, AIMessage) and m.content and getattr(m, "name", None) != "critic"), None)
-    if not last_ai:
-        tool_ids = {tc["id"] for m in messages if isinstance(m, AIMessage) for tc in (m.tool_calls or [])}
-        responded_ids = {m.tool_call_id for m in messages if isinstance(m, ToolMessage)}
-        clean_messages = [m for m in messages if not (isinstance(m, AIMessage) and any(tc["id"] not in responded_ids for tc in (m.tool_calls or [])))]
-        summary = llm_summarize.invoke([
-            SystemMessage(content=open(os.path.join(_DIR, "summarize_prompt.txt")).read().strip()),
-            *clean_messages,
-        ])
-        print("\nResult:", summary.content)
+    last_ai = next(
+        (m for m in reversed(messages)
+         if isinstance(m, AIMessage) and m.content and getattr(m, "name", None) != "critic"),
+        None,
+    )
+    if last_ai:
+        print("Result:", _content_text(last_ai.content))
     else:
-        print("\nResult:", last_ai.content)
+        print("No answer generated.")

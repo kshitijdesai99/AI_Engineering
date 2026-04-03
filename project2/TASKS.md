@@ -22,15 +22,15 @@ PER QUERY:
 - [x] Task 1.2 — Extract text per page using `pypdf`, skip empty pages
 - [x] Task 1.3 — Store as `corpus.json`: array of `{source, page, text}`
 - [x] Task 1.4 — Add a quality check: flag pages with <20 words as `low_text`
-- [ ] Task 1.5 — Test on NCERT PDFs, verify output looks sane
+- [x] Task 1.5 — Test on NCERT PDFs, verify output looks sane (733 pages, 1.81 MB, 23 low-text)
 
 ### Phase 2: Grep tool
-- [ ] Task 2.1 — `grep_corpus(keywords, max_results)` tool: loads corpus.json, scores chunks by keyword overlap
-- [ ] Task 2.2 — Return hits as `[{source, page, score, snippet (first 200 chars)}]`
-- [ ] Task 2.3 — Deduplicate neighboring pages (if page 12 and 13 both hit, merge into one read range)
+- [x] Task 2.1 — `grep_corpus(keywords, max_results)` tool: loads corpus.json, scores chunks by keyword overlap
+- [x] Task 2.2 — Return hits as `[{source, page, score, snippet (first 200 chars)}]`
+- [x] Task 2.3 — Deduplicate neighboring pages (if page 12 and 13 both hit, merge into one read range)
 
 ### Phase 3: Reader sub-agent
-- [ ] Task 3.1 — `read_pages(source, start_page, end_page)` tool: returns full text for a page range from corpus.json
+- [x] Task 3.1 — `read_pages(source, start_page, end_page)` tool: returns full text for a page range from corpus.json
 - [ ] Task 3.2 — Reader agent prompt: given a query + page text, extract the relevant snippet
 - [ ] Task 3.3 — Reader decides: is extracted text clear enough, or is this a table/garbled layout?
 - [ ] Task 3.4 — If table/garbled: `render_page_image(source, page)` tool renders PDF page as image

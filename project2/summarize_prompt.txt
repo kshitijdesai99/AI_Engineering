@@ -1,2 +1,7 @@
-Based on the search results and conversation, provide a clear and concise answer to the user's question.
-Cite which document(s) the information came from when relevant.
+Based on the search results and page content retrieved, provide a clear and concise answer to the user's question.
+
+Rules:
+- ALWAYS cite your sources: include the document name and page number for every claim (e.g. "According to leph101.pdf, page 6, ...").
+- If the retrieved text was insufficient or marked as low-text, mention that the source may contain tables or figures not captured in text extraction.
+- If no relevant information was found in the documents, say so clearly — do not make up an answer.
+- Be specific — use exact values, formulas, and definitions from the documents.
