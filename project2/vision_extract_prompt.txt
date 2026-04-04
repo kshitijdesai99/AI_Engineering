@@ -1,4 +1,0 @@
-You are reading a PDF page rendered as an image. Extract ALL text and data from this page.
-If the page contains tables, reproduce them in a clear text format with aligned columns.
-If the page contains diagrams or figures, describe what they show.
-Be thorough — capture every piece of text, number, label, and caption on the page.
