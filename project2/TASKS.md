@@ -1,62 +1,136 @@
-# Project 2 — Task Tracker
+# Project 2 — Rebuild Plan (Eval-Driven)
 
-## Architecture
+Build one layer at a time. Measure before adding the next.
 
 ```
-ONE-TIME: build_cache.py → PDF pages → corpus.json
-
-PER QUERY:
-  query → rewrite → grep corpus.json → find hits (file, page, score)
-    → reader sub-agents (1 per hit, read page + neighbors)
-      → each reader decides: text enough? or need page image for vision?
-      → returns snippet + metadata
-    → final agent synthesizes all snippets into answer
-    → critic: DONE or RETRY with new keywords?
-    → summarize + cite (file, page, section)
+Stage 0  Eval harness        → retrieval accuracy, no LLM
+Stage 1  Retrieval baseline  → tune grep until top-3 ≥ 80% on easy
+Stage 2  Single-page answer  → grep → read → LLM extract, one shot
+Stage 3  Query rewriting     → add rewrite only if it shows positive delta
+Stage 4  Critic + retry      → add loop only if it improves hard.csv
+Stage 5  Vision path         → add vision only for figure/table pages
+Stage 6  Synthesis           → multi-page answers if ≥ 3 such questions
 ```
 
-## Tasks
+---
 
-### Phase 1: Text extraction cache
-- [x] Task 1.1 — `build_cache.py`: recursively scan `input/` for PDFs
-- [x] Task 1.2 — Extract text per page using `pypdf`, skip empty pages
-- [x] Task 1.3 — Store as `corpus.json`: array of `{source, page, text}`
-- [x] Task 1.4 — Add a quality check: flag pages with <20 words as `low_text`
-- [x] Task 1.5 — Test on NCERT PDFs, verify output looks sane (733 pages, 1.81 MB, 23 low-text)
+## Keep As-Is
 
-### Phase 2: Grep tool
-- [x] Task 2.1 — `grep_corpus(keywords, max_results)` tool: loads corpus.json, scores chunks by keyword overlap
-- [x] Task 2.2 — Return hits as `[{source, page, score, snippet (first 200 chars)}]`
-- [x] Task 2.3 — Deduplicate neighboring pages (if page 12 and 13 both hit, merge into one read range)
+- `build_cache.py`, `corpus.json`, `search_tool.py`, `evals/easy.csv`, `evals/hard.csv`
+- **Delete and rebuild:** `search_agent.py`
 
-### Phase 3: Reader sub-agent
-- [x] Task 3.1 — `read_pages(source, start_page, end_page)` tool: returns full text for a page range from corpus.json
-- [x] Task 3.2 — Reader agent prompt: given a query + page text, extract the relevant snippet
-- [x] Task 3.3 — Reader decides: is extracted text clear enough, or is this a table/garbled layout?
-- [x] Task 3.4 — If table/garbled: `render_page_image(source, page)` tool renders PDF page as image
-- [x] Task 3.5 — Send page image to vision model, get structured text back
-- [x] Task 3.6 — Reader returns: `{snippet, source, page, method: "text"|"vision"}`
+---
 
-### Phase 4: Agent orchestration (LangGraph)
-- [x] Task 4.1 — Rewrite node: rewrites vague query into search keywords
-- [x] Task 4.2 — Grep node: calls grep_corpus, gets hit locations
-- [x] Task 4.3 — Reader dispatch: agent calls read_pages or read_page_vision based on text quality
-- [x] Task 4.4 — Synthesize node: final agent gets all snippets, produces answer
-- [x] Task 4.5 — Critic node: judges answer quality, decides DONE or RETRY
-- [x] Task 4.6 — RETRY path: critic suggests new keywords/scope, loops back to grep
-- [x] Task 4.7 — Summarize node: final answer with citations (file, page, section)
+## Stage 0 — Eval Harness
 
-### Phase 5: Eval harness
-- [ ] Task 5.1 — Create `evals/` folder with train.csv and test.csv
-- [ ] Task 5.2 — Eval type: factoid extraction (single page, direct answer)
-- [ ] Task 5.3 — Eval type: needle in haystack (keyword appears many times, only one is correct)
-- [ ] Task 5.4 — Eval type: multi-context (answer requires 2+ pages/documents)
-- [ ] Task 5.5 — Eval type: unanswerable (answer not in corpus, agent should say so)
-- [ ] Task 5.6 — Eval type: table comprehension (needs vision path)
-- [ ] Task 5.7 — Port `run_evals.py` from project 1 (parallel, tool diagnostics, --async)
-- [ ] Task 5.8 — Add citation accuracy as a metric (did it cite the right file + page?)
+Build `run_evals.py`. No LLM. Run after every stage.
 
-### Phase 6: Polish
-- [ ] Task 6.1 — Update README.md with architecture, usage, eval results
-- [ ] Task 6.2 — Add `--provider` support across gemini/openai/openrouter
-- [ ] Task 6.3 — Handle edge cases: empty corpus, no hits found, all pages low_text
+- Load CSV. Strip `project2/input/` prefix from gold PDF paths to match corpus keys.
+- Call `grep_corpus(question, max_results=10)`, parse `Top individual pages:` block.
+- Check if `(gold_source, gold_page)` is in top-1 and top-3.
+- Skip rows with blank `Page` (hard.csv), mark as `no_gold_page`.
+- `--csv evals/easy.csv` flag; default runs both.
+
+Output:
+```
+easy.csv  — top-1: 14/20 (70%)   top-3: 17/20 (85%)
+hard.csv  — top-1: 8/20  (40%)   top-3: 12/20 (60%)   [7 no_gold_page skipped]
+```
+
+**Gate:** runs cleanly on both CSVs.
+
+---
+
+## Stage 1 — Retrieval Baseline
+
+- Run Stage 0, record numbers.
+- For each miss: inspect what `grep_corpus` returns and why the gold page ranked low.
+- Fix only `_score_chunk` / `_extract_keywords` in `search_tool.py` if needed.
+- Re-run after each fix.
+
+```
+Stage 1 result:  easy top-1 __/20  top-3 __/20  |  hard top-1 __/20  top-3 __/20
+```
+
+**Gate:** easy top-3 ≥ 80%.
+
+---
+
+## Stage 2 — Minimal Single-Page Answer
+
+`search_agent.py` v1 — plain function, no LangGraph:
+```
+query → grep_corpus → top hit → read_pages → LLM extract → answer + citation
+```
+
+Add `answer_match` metric to `run_evals.py` (gold answer substring in response, case-insensitive).
+
+```
+Stage 2 result:  easy top-3 __/20  answer_match __/20
+```
+
+**Gate:** easy answer_match ≥ 70%.
+
+---
+
+## Stage 3 — Query Rewriting
+
+Add one LLM rewrite step before `grep_corpus`. A/B against Stage 2.
+Keep only if net positive delta on both CSVs.
+
+```
+Stage 3 result:  easy __/20  hard __/20
+```
+
+---
+
+## Stage 4 — Critic + Retry Loop
+
+Convert to LangGraph: `rewrite → model → search → critic → summarize`.
+Critic: DONE if citation found, CONTINUE otherwise. Cap at `MAX_TOOL_CALLS = 6`.
+
+```
+Stage 4 result:  easy __/20  hard __/20  avg_tool_calls __
+```
+
+**Gate:** hard.csv improves over Stage 3.
+
+---
+
+## Stage 5 — Vision Path
+
+Trigger `answer_from_page_vision` only when:
+- page tagged `[LOW TEXT]`, OR
+- page tagged `[HAS FIGURE/TABLE REFERENCE]` AND question asks for a plotted/tabulated value.
+
+Add `type` column to `hard.csv` (`text | figure | multi_page`). Report metrics by type.
+
+```
+Stage 5 result:  hard __/20  — text __/__  figure __/__  multi_page __/__
+```
+
+**Gate:** figure questions improve over Stage 4.
+
+---
+
+## Stage 6 — Multi-Page Synthesis
+
+Only build if `hard.csv` has ≥ 3 `multi_page` questions.
+`model` reads multiple ranges per loop; `summarize` synthesizes across all snippets.
+
+```
+Stage 6 result:  easy __/20  hard __/20
+```
+
+---
+
+## Score Tracker
+
+| Stage | easy top-3 | easy ans | hard top-3 | hard ans | notes              |
+|-------|-----------|----------|-----------|----------|--------------------|
+| 1     |           |          |           |          | retrieval only     |
+| 2     |           |          |           |          | +answer            |
+| 3     |           |          |           |          | +rewrite           |
+| 4     |           |          |           |          | +loop              |
+| 5     |           |          |           |          | +vision            |
+| 6     |           |          |           |          | +synthesis         |

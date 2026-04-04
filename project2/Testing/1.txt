@@ -1,0 +1,54 @@
+easy.csv
+---------------------------------------------------------------------------------
+Q   Question                                     Gold                      T1  T3
+---------------------------------------------------------------------------------
+1   What simple apparatus is used to detect cha  leph101.pdf p.3            ✗   ✗
+2   How is the potential energy of a charge q a  leph102.pdf p.15           ✗   ✗
+3   What is 1 electron volt in joules?           leph102.pdf p.15           ✗   ✗
+4   What is the SI unit of current?              leph103.pdf p.2            ✗   ✗
+5   Which physicist noticed that a current in a  leph104.pdf p.1            ✓   ✓
+6   Do isolated magnetic north and south poles   leph105.pdf p.2            ✓   ✓
+7   Whose pioneering experiments led directly t  leph106.pdf p.2            ✓   ✓
+8   According to Lenz's law what does the induc  leph106.pdf p.7            ✓   ✓
+9   What is the rms current I in terms of the p  leph107.pdf p.20           ✗   ✗
+10  What speed of light is quoted when discussi  leph108.pdf p.2            ✗   ✗
+11  What wavelength range of the electromagneti  leph201.pdf p.1            ✗   ✓
+12  For a telescope with objective focal length  leph201.pdf p.25           ✗   ✓
+13  How is a wavefront defined?                  leph202.pdf p.3            ✓   ✓
+14  What is the accepted value of e/m for catho  leph203.pdf p.2            ✓   ✓
+15  Who discovered photoelectric emission in 18  leph203.pdf p.3            ✗   ✓
+16  What was the thickness of the gold foil use  leph204.pdf p.3            ✗   ✗
+17  What is the ground state energy E1 of the h  leph204.pdf p.11           ✓   ✓
+18  What is 1 atomic mass unit in kilograms?     leph205.pdf p.2            ✓   ✓
+19  Which elemental semiconductors are specific  leph206.pdf p.3            ✗   ✗
+20  In an unbiased p-n junction why do holes di  leph206.pdf p.20           ✗   ✗
+---------------------------------------------------------------------------------
+top-1: 8/20  top-3: 11/20
+
+
+hard.csv
+---------------------------------------------------------------------------------
+Q   Question                                     Gold                      T1  T3
+---------------------------------------------------------------------------------
+1   What us 1 Btu in Joules?                     keph1a1.pdf p.4            ✓   ✓
+2   What is Solution to 6.3?                     keph1an.pdf p.6            ✗   ✗
+3   Who are the members of textbook development  keph1ps.pdf p.7            ✗   ✗
+4   Under whose chairmanship was the textbook p  keph1ps.pdf p.9            ✓   ✓
+5   Who was the Chief Advisor of the Textbook D  keph1ps.pdf p.11           ✗   ✗
+6   What message did R.P. Feynman want to leave  keph1ps.pdf p.12           ✓   ✓
+7   What message did the literature teacher wan  keph1ps.pdf p.12           ✓   ✓
+8   What message did another person suggest abo  keph1ps.pdf p.12           ✗   ✗
+9   What page number covers "6.10 Kinematics of  keph1ps.pdf p.14           ✗   ✓
+10  The position of an object moving along x-ax  keph102.pdf p.3            ✓   ✓
+11  A motorboat is racing towards north at 25 k  keph103.pdf p.8            ✓   ✓
+12  How many triangles are there in fig 3.18?    keph103.pdf p.15           ✓   ✓
+13  In the MOTION IN A PLANE chapter, how many   keph103.pdf p.20-22        ✗   ✗
+14  A mass of 6 kg is suspended by a rope of le  keph104.pdf p.10           ✓   ✓
+15  What is the downward force executed on the   keph104.pdf p.13           ✗   ✓
+16  In fig 4.15 bottom figure, what is the forc  keph104.pdf p.17           ✗   ✓
+17  How many summary points are there in the ch  keph104.pdf p.18-19        ✗   ✗
+18  The speed is reduced by approximately 68% (  keph105.pdf p.5            ✓   ✓
+19  what is the case 2 of collisions in 1 dimen  keph105.pdf p.14           ✗   ✗
+20  how many people are in the fig 5.13?         keph105.pdf p.19           ✓   ✓
+---------------------------------------------------------------------------------
+top-1: 10/20  top-3: 13/20
