@@ -22,6 +22,8 @@ _INPUT_DIR = os.path.join(_BASE_DIR, "input")
 _CORPUS_PATH = os.path.join(_BASE_DIR, "corpus.json")
 _TOKEN_RE = re.compile(r"[A-Za-z][A-Za-z0-9]*|\d+(?:\.\d+)?")
 _VISUAL_REF_RE = re.compile(r"(figs?\.?|figure|table|graph)", re.IGNORECASE)
+_VISUAL_VARIATION_RE = re.compile(r"\b(variation|varies|vary|curve|plot|graph|figure|versus|vs\.?|against)\b", re.IGNORECASE)
+_EXTREMUM_QUERY_RE = re.compile(r"\b(lowest|highest|minimum|maximum|min|max)\b", re.IGNORECASE)
 _NO_CORPUS_MESSAGE = "No corpus found. Run build_cache.py first."
 MAX_RANGE_PAGES = 5  # never merge into ranges larger than this
 _STOPWORDS = {
@@ -92,6 +94,15 @@ def _tokenize(text: str) -> list[str]:
 
 def _is_numeric_token(token: str) -> bool:
     return any(char.isdigit() for char in token)
+
+
+def _query_feature_flags(query: str) -> dict[str, bool]:
+    tokens = set(_tokenize(query))
+    normalized = _normalize_phrase_text(query)
+    return {
+        "seeks_extremum": bool(_EXTREMUM_QUERY_RE.search(normalized)),
+        "mentions_temperature": "temperature" in tokens,
+    }
 
 
 @lru_cache(maxsize=1)
@@ -215,6 +226,7 @@ def _score_chunk(
     phrases: list[str],
     token_doc_freq: dict[str, int],
     total_pages: int,
+    query_flags: dict[str, bool],
 ) -> float:
     token_counts: Counter[str] = chunk["_token_counts"]
     phrase_text = chunk["_phrase_text"]
@@ -245,6 +257,12 @@ def _score_chunk(
         score += 10.0
     if matched_phrases and "example" in phrase_text:
         score += 6.0
+    if query_flags.get("seeks_extremum") and _VISUAL_VARIATION_RE.search(phrase_text):
+        score += 65.0
+        if chunk.get("_has_visual_reference"):
+            score += 110.0
+        if query_flags.get("mentions_temperature") and "temperature" in token_counts:
+            score += 20.0
 
     return score
 
@@ -300,6 +318,54 @@ def render_page_image(source: str, page: int, dpi: int = 200) -> str | None:
         return base64.b64encode(img_bytes).decode("utf-8")
     except Exception as exc:
         print(f"[render_page_image] failed for {source} p.{page}: {exc}", file=sys.stderr)
+        return None
+
+
+def render_page_image_bundle(
+    source: str,
+    page: int,
+    full_dpi: int = 200,
+    crop_dpi: int = 300,
+) -> list[tuple[str, str]] | None:
+    """
+    Render a page as a small bundle of images: the full page plus zoomed quadrants.
+    This helps vision models read small charts or tables that are hard to inspect
+    from a single full-page render.
+    """
+    pdf_path = os.path.join(_INPUT_DIR, source)
+    if not os.path.exists(pdf_path):
+        return None
+    try:
+        import fitz  # pymupdf
+    except ImportError:
+        return None
+
+    try:
+        doc = fitz.open(pdf_path)
+        try:
+            if page < 1 or page > len(doc):
+                return None
+            page_obj = doc[page - 1]
+            rect = page_obj.rect
+            mid_x = rect.x0 + (rect.width / 2.0)
+            mid_y = rect.y0 + (rect.height / 2.0)
+            regions = [
+                ("full page", rect, full_dpi),
+                ("top-left quadrant", fitz.Rect(rect.x0, rect.y0, mid_x, mid_y), crop_dpi),
+                ("top-right quadrant", fitz.Rect(mid_x, rect.y0, rect.x1, mid_y), crop_dpi),
+                ("bottom-left quadrant", fitz.Rect(rect.x0, mid_y, mid_x, rect.y1), crop_dpi),
+                ("bottom-right quadrant", fitz.Rect(mid_x, mid_y, rect.x1, rect.y1), crop_dpi),
+            ]
+
+            encoded_images: list[tuple[str, str]] = []
+            for label, clip, dpi in regions:
+                pix = page_obj.get_pixmap(dpi=dpi, clip=clip)
+                encoded_images.append((label, base64.b64encode(pix.tobytes("png")).decode("utf-8")))
+        finally:
+            doc.close()
+        return encoded_images
+    except Exception as exc:
+        print(f"[render_page_image_bundle] failed for {source} p.{page}: {exc}", file=sys.stderr)
         return None
 
 
@@ -398,10 +464,11 @@ def grep_corpus(query: str, scope: str = "", max_results: int = 5) -> str:
         return "No valid search keywords provided."
     phrases = _extract_query_phrases(query)
     total_pages = len(index.pages)
+    query_flags = _query_feature_flags(query)
 
     hits = []
     for chunk in pool:
-        score = _score_chunk(chunk, keywords, phrases, index.token_doc_freq, total_pages)
+        score = _score_chunk(chunk, keywords, phrases, index.token_doc_freq, total_pages, query_flags)
         if score > 0:
             snippet = _best_snippet(chunk["text"], keywords)
             hits.append({

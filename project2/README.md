@@ -37,10 +37,13 @@ python build_cache.py --force
 
 - Rewrites the user query into a search-friendly form
 - Preserves exact numbers and literal wording for copied textbook problems
+- Expands lowest/highest graph-style questions into variation/curve/figure search hints
 - Searches `corpus.json` with phrase-aware and number-aware scoring
 - Forces a read of the top individual page hit for detailed worked problems
+- Preferentially routes graph-extremum questions toward figure-heavy pages instead of generic theory pages
 - Extracts direct worked answers from the retrieved page instead of recomputing them
 - Falls back to broader reading or vision tools when text alone is insufficient
+- Uses zoomed page crops for chart/table vision questions and rejects weak visual answers that lack turning-point evidence
 
 ## Architecture
 
@@ -54,6 +57,7 @@ User query
 [grep_corpus]
     - page-level search over corpus.json
     - boosts exact phrases, rare terms, and numeric matches
+    - boosts visual variation pages for lowest/highest graph questions
     ↓
 [critic]
     - for detailed copied problems, force-read the top individual page hit
@@ -62,6 +66,7 @@ User query
 [read_pages / vision tools]
     - read the exact page or short range
     - use vision only when the answer depends on visual content
+    - for chart questions, inspect the full page plus zoomed quadrants
     ↓
 [summarize]
     - prefer explicit document answers over fresh recomputation
@@ -81,6 +86,8 @@ User query
 - Exact worked examples are handled better when the original question text is passed in full.
 - For copied textbook problems, the agent now prefers the page containing the full example statement and answer over generic theory pages.
 - When a retrieved page already contains the solved result, the final answer is taken from that page directly and cited.
+- For lowest/highest questions answered by graphs, the agent rewrites the search toward "variation of X with Y" language, prefers visual pages, and asks vision models to read zoomed crops instead of relying on a tiny full-page graph.
+- Vision answers for graph extrema must include curve-shape or turning-point evidence before the critic accepts them as reliable.
 
 ## Supported Documents
 
