@@ -12,4 +12,6 @@ dependencies = [
     "python-dotenv>=1.0.0",
     "pypdf>=6.9.2",
     "pymupdf>=1.27.2.2",
+    "rank-bm25>=0.2.2",
+    "scikit-learn>=1.8.0",
 ]

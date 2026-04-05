@@ -1,7 +1,6 @@
 """
-One-time text extraction from PDFs in input/ directory.
-Recursively scans all subdirectories, extracts text per page,
-and stores the result in corpus.json for fast grep-style search.
+Extracts text from every PDF in the input/ directory and saves it to corpus.json.
+Run this once before using any search or eval scripts.
 
 Usage:
     python build_cache.py [--input input/] [--output corpus.json] [--force]
@@ -13,11 +12,7 @@ import json
 import os
 import sys
 from time import perf_counter
-
-try:
-    import pypdf
-except ImportError as exc:
-    raise SystemExit("pypdf is required: pip install pypdf") from exc
+import pypdf
 
 _DIR = os.path.dirname(os.path.abspath(__file__))
 DEFAULT_INPUT = os.path.join(_DIR, "input")
@@ -25,7 +20,7 @@ DEFAULT_OUTPUT = os.path.join(_DIR, "corpus.json")
 
 
 def find_pdfs(input_dir: str) -> list[str]:
-    """Recursively find all PDF files under input_dir."""
+    """Walk input_dir and return all PDF paths, sorted alphabetically."""
     pdfs: list[str] = []
     for root, _, files in os.walk(input_dir):
         pdfs.extend(
@@ -37,21 +32,14 @@ def find_pdfs(input_dir: str) -> list[str]:
 
 
 def extract_pages(pdf_path: str, input_dir: str) -> list[dict]:
-    """Extract text from each page of a PDF. Returns list of page chunks."""
+    """Extract text page-by-page from a PDF. Skips blank pages."""
     chunks = []
     rel_path = os.path.relpath(pdf_path, input_dir)
 
-    try:
-        reader = pypdf.PdfReader(pdf_path)
-    except Exception as e:
-        print(f"  ⚠️  failed to open: {e}")
-        return chunks
+    reader = pypdf.PdfReader(pdf_path)
 
     for page_num, page in enumerate(reader.pages, 1):
-        try:
-            text = page.extract_text() or ""
-        except Exception:
-            text = ""
+        text = page.extract_text() or ""
 
         text = text.strip()
         word_count = len(text.split())
@@ -72,7 +60,7 @@ def extract_pages(pdf_path: str, input_dir: str) -> list[dict]:
 
 def build_cache(input_dir: str, output_path: str, force: bool = False):
     if os.path.exists(output_path) and not force:
-        print(f"corpus.json already exists. Use --force to rebuild.")
+        print(f"{output_path} already exists — pass --force to rebuild.")
         return
 
     pdfs = find_pdfs(input_dir)
@@ -80,46 +68,22 @@ def build_cache(input_dir: str, output_path: str, force: bool = False):
         print(f"No PDFs found in {input_dir}")
         sys.exit(1)
 
-    print(f"\n{'='*60}")
-    print(f"  Building corpus from {len(pdfs)} PDFs")
-    print(f"  Input:  {input_dir}")
-    print(f"  Output: {output_path}")
-    print(f"{'='*60}\n")
-
     t0 = perf_counter()
     corpus: list[dict] = []
     total_pages = 0
-    low_text_pages = 0
 
     for i, pdf_path in enumerate(pdfs, 1):
-        rel = os.path.relpath(pdf_path, input_dir)
-        print(f"[{i}/{len(pdfs)}] {rel}", end="")
-
         chunks = extract_pages(pdf_path, input_dir)
-        page_count = len(chunks)
-        low = sum(1 for c in chunks if c["low_text"])
-
-        total_pages += page_count
-        low_text_pages += low
-
-        print(f"  → {page_count} pages" + (f" ({low} low-text)" if low else ""))
+        total_pages += len(chunks)
         corpus.extend(chunks)
+        print(f"[{i}/{len(pdfs)}] {os.path.relpath(pdf_path, input_dir)}  ({len(chunks)} pages)")
 
     elapsed = round(perf_counter() - t0, 2)
 
     with open(output_path, "w", encoding="utf-8") as fp:
         json.dump(corpus, fp, ensure_ascii=False, indent=2)
 
-    file_size_mb = round(os.path.getsize(output_path) / (1024 * 1024), 2)
-
-    print(f"\n{'='*60}")
-    print(f"  Done in {elapsed}s")
-    print(f"  PDFs processed:  {len(pdfs)}")
-    print(f"  Pages extracted: {total_pages}")
-    print(f"  Low-text pages:  {low_text_pages} (flagged, may need vision)")
-    print(f"  Corpus size:     {file_size_mb} MB")
-    print(f"  Saved to:        {output_path}")
-    print(f"{'='*60}\n")
+    print(f"\nDone — {total_pages} pages from {len(pdfs)} PDFs in {elapsed}s → {output_path}")
 
 
 if __name__ == "__main__":

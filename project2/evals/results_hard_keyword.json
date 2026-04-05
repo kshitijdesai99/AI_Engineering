@@ -1,0 +1,439 @@
+{
+  "file": "project2/evals/hard.csv",
+  "topk": 5,
+  "total": 9,
+  "correct": 9,
+  "accuracy": 1.0,
+  "results": [
+    {
+      "question": "Under whose chairmanship was the textbook prepared?",
+      "expected_source": "ncert_physics_class_11_part_1/keph1ps.pdf",
+      "expected_pages": [
+        9
+      ],
+      "keywords": [
+        "chairmanship",
+        "textbook",
+        "prepared"
+      ],
+      "match": true,
+      "top_results": [
+        {
+          "source": "ncert_physics_class_11_part_1/keph1ps.pdf",
+          "page": 9,
+          "score": 13.7655
+        },
+        {
+          "source": "ncert_physics_class_11_part_2/keph2ps.pdf",
+          "page": 7,
+          "score": 7.2152
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph106.pdf",
+          "page": 2,
+          "score": 5.7073
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph1ps.pdf",
+          "page": 12,
+          "score": 5.5796
+        },
+        {
+          "source": "ncert_physics_class_11_part_1/keph1ps.pdf",
+          "page": 11,
+          "score": 5.496
+        }
+      ]
+    },
+    {
+      "question": "What message did R.P. Feynman want to leave for future beings?",
+      "expected_source": "ncert_physics_class_11_part_1/keph1ps.pdf",
+      "expected_pages": [
+        12
+      ],
+      "keywords": [
+        "message",
+        "did",
+        "r",
+        "p",
+        "feynman",
+        "want",
+        "leave",
+        "future",
+        "beings"
+      ],
+      "match": true,
+      "top_results": [
+        {
+          "source": "ncert_physics_class_11_part_1/keph1ps.pdf",
+          "page": 12,
+          "score": 35.3761
+        },
+        {
+          "source": "ncert_physics_class_11_part_2/keph2ps.pdf",
+          "page": 13,
+          "score": 34.5713
+        },
+        {
+          "source": "ncert_physics_class_11_part_1/keph106.pdf",
+          "page": 16,
+          "score": 9.4999
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph202.pdf",
+          "page": 14,
+          "score": 7.7459
+        },
+        {
+          "source": "ncert_physics_class_11_part_2/keph205.pdf",
+          "page": 1,
+          "score": 7.3516
+        }
+      ]
+    },
+    {
+      "question": "What message did the literature teacher want to leave for future generations?",
+      "expected_source": "ncert_physics_class_11_part_1/keph1ps.pdf",
+      "expected_pages": [
+        12
+      ],
+      "keywords": [
+        "message",
+        "did",
+        "literature",
+        "teacher",
+        "want",
+        "leave",
+        "future",
+        "generations"
+      ],
+      "match": true,
+      "top_results": [
+        {
+          "source": "ncert_physics_class_11_part_1/keph1ps.pdf",
+          "page": 12,
+          "score": 47.6221
+        },
+        {
+          "source": "ncert_physics_class_11_part_2/keph2ps.pdf",
+          "page": 13,
+          "score": 46.4027
+        },
+        {
+          "source": "ncert_physics_class_11_part_1/keph106.pdf",
+          "page": 16,
+          "score": 7.7989
+        },
+        {
+          "source": "ncert_physics_class_11_part_1/keph1ps.pdf",
+          "page": 11,
+          "score": 7.0748
+        },
+        {
+          "source": "ncert_physics_class_11_part_2/keph2ps.pdf",
+          "page": 9,
+          "score": 7.0441
+        }
+      ]
+    },
+    {
+      "question": "What message did another person suggest about motion?",
+      "expected_source": "ncert_physics_class_11_part_1/keph1ps.pdf",
+      "expected_pages": [
+        12
+      ],
+      "keywords": [
+        "message",
+        "did",
+        "person",
+        "suggest",
+        "motion"
+      ],
+      "match": true,
+      "top_results": [
+        {
+          "source": "ncert_physics_class_11_part_1/keph1ps.pdf",
+          "page": 12,
+          "score": 18.5107
+        },
+        {
+          "source": "ncert_physics_class_11_part_2/keph2ps.pdf",
+          "page": 13,
+          "score": 18.0096
+        },
+        {
+          "source": "ncert_physics_class_11_part_1/keph102.pdf",
+          "page": 14,
+          "score": 7.8601
+        },
+        {
+          "source": "ncert_physics_class_11_part_1/keph102.pdf",
+          "page": 9,
+          "score": 7.3768
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph106.pdf",
+          "page": 7,
+          "score": 6.726
+        }
+      ]
+    },
+    {
+      "question": "What page number covers \"6.10 Kinematics of rotational motion about a fixed axis\"?",
+      "expected_source": "ncert_physics_class_11_part_1/keph1ps.pdf",
+      "expected_pages": [
+        14
+      ],
+      "keywords": [
+        "page",
+        "number",
+        "covers",
+        "6.10",
+        "kinematics",
+        "rotational",
+        "motion",
+        "fixed",
+        "axis"
+      ],
+      "match": true,
+      "top_results": [
+        {
+          "source": "ncert_physics_class_11_part_1/keph106.pdf",
+          "page": 25,
+          "score": 23.4677
+        },
+        {
+          "source": "ncert_physics_class_11_part_1/keph106.pdf",
+          "page": 1,
+          "score": 22.6774
+        },
+        {
+          "source": "ncert_physics_class_11_part_1/keph1ps.pdf",
+          "page": 14,
+          "score": 22.0016
+        },
+        {
+          "source": "ncert_physics_class_11_part_1/keph106.pdf",
+          "page": 27,
+          "score": 20.1084
+        },
+        {
+          "source": "ncert_physics_class_11_part_1/keph106.pdf",
+          "page": 26,
+          "score": 19.4056
+        }
+      ]
+    },
+    {
+      "question": "A motorboat is racing towards north at 25 km/h and the water current in that region is 10 km/h in the direction of 60\u00b0 east of south. Find the resultant velocity of the boat.",
+      "expected_source": "ncert_physics_class_11_part_1/keph103.pdf",
+      "expected_pages": [
+        8
+      ],
+      "keywords": [
+        "motorboat",
+        "racing",
+        "north",
+        "25",
+        "km",
+        "h",
+        "water",
+        "current",
+        "region",
+        "10",
+        "km",
+        "h",
+        "direction",
+        "60",
+        "east",
+        "south",
+        "resultant",
+        "velocity",
+        "boat"
+      ],
+      "match": true,
+      "top_results": [
+        {
+          "source": "ncert_physics_class_11_part_1/keph103.pdf",
+          "page": 8,
+          "score": 67.1015
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph104.pdf",
+          "page": 18,
+          "score": 24.0475
+        },
+        {
+          "source": "ncert_physics_class_11_part_1/keph1an.pdf",
+          "page": 3,
+          "score": 23.3513
+        },
+        {
+          "source": "ncert_physics_class_11_part_2/keph203.pdf",
+          "page": 16,
+          "score": 22.7978
+        },
+        {
+          "source": "ncert_physics_class_11_part_1/keph102.pdf",
+          "page": 13,
+          "score": 22.0242
+        }
+      ]
+    },
+    {
+      "question": "A mass of 6 kg is suspended by a rope of length 2 m from the ceiling. A force of 50 N in the horizontal direction is applied at the midpoint P of the rope. What is the angle the rope makes with the vertical in equilibrium? (Take g = 10 m s-2).",
+      "expected_source": "ncert_physics_class_11_part_1/keph104.pdf",
+      "expected_pages": [
+        10
+      ],
+      "keywords": [
+        "mass",
+        "6",
+        "kg",
+        "suspended",
+        "rope",
+        "length",
+        "2",
+        "m",
+        "ceiling",
+        "force",
+        "50",
+        "n",
+        "horizontal",
+        "direction",
+        "applied",
+        "midpoint",
+        "p",
+        "rope",
+        "angle",
+        "rope",
+        "makes",
+        "vertical",
+        "equilibrium",
+        "g",
+        "10",
+        "m",
+        "s",
+        "2"
+      ],
+      "match": true,
+      "top_results": [
+        {
+          "source": "ncert_physics_class_11_part_1/keph104.pdf",
+          "page": 10,
+          "score": 69.5748
+        },
+        {
+          "source": "ncert_physics_class_11_part_2/keph201.pdf",
+          "page": 9,
+          "score": 42.5717
+        },
+        {
+          "source": "ncert_physics_class_11_part_1/keph104.pdf",
+          "page": 21,
+          "score": 38.6557
+        },
+        {
+          "source": "ncert_physics_class_11_part_1/keph105.pdf",
+          "page": 18,
+          "score": 37.007
+        },
+        {
+          "source": "ncert_physics_class_11_part_1/keph106.pdf",
+          "page": 35,
+          "score": 35.1644
+        }
+      ]
+    },
+    {
+      "question": "What is the downward force executed on the block in the block and trolley system shown in Fig. 4.12(a)?",
+      "expected_source": "ncert_physics_class_11_part_1/keph104.pdf",
+      "expected_pages": [
+        13
+      ],
+      "keywords": [
+        "downward",
+        "force",
+        "executed",
+        "block",
+        "block",
+        "trolley",
+        "shown",
+        "fig",
+        "4.12"
+      ],
+      "match": true,
+      "top_results": [
+        {
+          "source": "ncert_physics_class_11_part_1/keph104.pdf",
+          "page": 13,
+          "score": 28.6576
+        },
+        {
+          "source": "ncert_physics_class_11_part_1/keph104.pdf",
+          "page": 17,
+          "score": 25.9584
+        },
+        {
+          "source": "ncert_physics_class_11_part_1/keph104.pdf",
+          "page": 14,
+          "score": 23.7082
+        },
+        {
+          "source": "ncert_physics_class_11_part_2/keph206.pdf",
+          "page": 11,
+          "score": 15.4662
+        },
+        {
+          "source": "ncert_physics_class_11_part_1/keph105.pdf",
+          "page": 7,
+          "score": 14.6107
+        }
+      ]
+    },
+    {
+      "question": "The speed is reduced by approximately 68% (not 90%) what is the question text above it?",
+      "expected_source": "ncert_physics_class_11_part_1/keph105.pdf",
+      "expected_pages": [
+        5
+      ],
+      "keywords": [
+        "speed",
+        "reduced",
+        "approximately",
+        "68",
+        "90",
+        "question",
+        "text"
+      ],
+      "match": true,
+      "top_results": [
+        {
+          "source": "ncert_physics_class_11_part_1/keph105.pdf",
+          "page": 5,
+          "score": 17.68
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph1ps.pdf",
+          "page": 11,
+          "score": 8.763
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph2ps.pdf",
+          "page": 9,
+          "score": 8.3164
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph2an.pdf",
+          "page": 4,
+          "score": 8.2659
+        },
+        {
+          "source": "ncert_physics_class_11_part_2/keph2an.pdf",
+          "page": 12,
+          "score": 8.0245
+        }
+      ]
+    }
+  ]
+}
