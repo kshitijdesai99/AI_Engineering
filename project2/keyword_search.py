@@ -62,7 +62,7 @@ def is_hit(results: list[dict], expected_source: str, expected_pages: set[int]) 
     return False
 
 
-def run_evals(csv_path: str, out_path: str, topk: int = 5):
+def run_evals(csv_path: str, out_path: str, topk: int = 5, retrieval_k: int = 100):
     corpus = load_corpus(CORPUS_PATH)
     bm25   = build_bm25(corpus)
 
@@ -70,7 +70,7 @@ def run_evals(csv_path: str, out_path: str, topk: int = 5):
         rows = list(csv.DictReader(f))
 
     total = len(rows)
-    print(f"Evaluating {total} questions from {csv_path} (top-k={topk})\n")
+    print(f"Evaluating {total} questions from {csv_path} (retrieval_k={retrieval_k}, topk={topk})\n")
 
     t_start = perf_counter()
     results = []
@@ -82,7 +82,7 @@ def run_evals(csv_path: str, out_path: str, topk: int = 5):
         expected_source = normalise_source(csv_source)
         expected_pages  = parse_pages(page_str)
         keywords        = tokenize(question)
-        hits            = search(bm25, corpus, keywords, topk)
+        hits            = search(bm25, corpus, keywords, retrieval_k)[:topk]
         match           = is_hit(hits, expected_source, expected_pages)
 
         status = "✅" if match else "❌"
@@ -128,11 +128,12 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Keyword-based retrieval eval against corpus.json")
     parser.add_argument("--file",  default=os.path.join(_DIR, "evals", "easy.csv"))
     parser.add_argument("--out",   default=None)
-    parser.add_argument("--topk",  type=int, default=5)
+    parser.add_argument("--topk",        type=int, default=5)
+    parser.add_argument("--retrieval_k", type=int, default=100)
     args = parser.parse_args()
 
     if args.out is None:
         stem     = os.path.splitext(os.path.basename(args.file))[0]
         args.out = os.path.join(_DIR, "evals", f"results_{stem}_keyword.json")
 
-    run_evals(args.file, args.out, topk=args.topk)
+    run_evals(args.file, args.out, topk=args.topk, retrieval_k=args.retrieval_k)
