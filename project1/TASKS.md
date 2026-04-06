@@ -50,6 +50,11 @@
 - [x] Task 7.4 — Update Gemini model to `gemini-3.1-flash-lite-preview`
 - [x] Task 7.5 — Document provider models table in README
 
+### Phase 8: CLI & Code Quality
+- [x] Task 8.1 — Add `argparse` with `--provider` and `--query` args to `docker_agent.py` (replaces positional `sys.argv`)
+- [x] Task 8.2 — `--query` overrides `query.txt`; falls back to `query.txt` if not provided
+- [x] Task 8.3 — Standardise module docstrings: one-liner on first line across all `.py` files
+
 ## Results
 
 | Provider | Model | Train (20) | Test (20) |
