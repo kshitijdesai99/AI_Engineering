@@ -15,8 +15,10 @@ from time import perf_counter
 import pypdf
 
 _DIR = os.path.dirname(os.path.abspath(__file__))
-DEFAULT_INPUT = os.path.join(_DIR, "input")
+DEFAULT_INPUT  = os.path.join(_DIR, "input")
 DEFAULT_OUTPUT = os.path.join(_DIR, "corpus.json")
+CHUNK_SIZE     = 800
+CHUNK_OVERLAP  = 200
 
 
 def find_pdfs(input_dir: str) -> list[str]:
@@ -31,31 +33,38 @@ def find_pdfs(input_dir: str) -> list[str]:
     return pdfs
 
 
-def extract_pages(pdf_path: str, input_dir: str) -> list[dict]:
-    """Extract text page-by-page from a PDF. Skips blank pages."""
+def chunk_text(text: str, chunk_size: int = CHUNK_SIZE, overlap: int = CHUNK_OVERLAP) -> list[str]:
     chunks = []
-    rel_path = os.path.relpath(pdf_path, input_dir)
+    start = 0
+    while start < len(text):
+        chunks.append(text[start : start + chunk_size])
+        start += chunk_size - overlap
+    return chunks
 
+
+def extract_chunks(pdf_path: str, input_dir: str) -> list[dict]:
+    """Extract text from a PDF and split each page into fixed-size chunks."""
+    result = []
+    rel_path = os.path.relpath(pdf_path, input_dir)
     reader = pypdf.PdfReader(pdf_path)
 
     for page_num, page in enumerate(reader.pages, 1):
-        text = page.extract_text() or ""
-
-        text = text.strip()
-        word_count = len(text.split())
-
+        text = (page.extract_text() or "").strip()
         if not text:
             continue
 
-        chunks.append({
-            "source": rel_path,
-            "page": page_num,
-            "text": text,
-            "word_count": word_count,
-            "low_text": word_count < 20,
-        })
+        for chunk_index, chunk in enumerate(chunk_text(text), 1):
+            word_count = len(chunk.split())
+            result.append({
+                "source":      rel_path,
+                "page":        page_num,
+                "chunk_index": chunk_index,
+                "text":        chunk,
+                "word_count":  word_count,
+                "low_text":    word_count < 20,
+            })
 
-    return chunks
+    return result
 
 
 def build_cache(input_dir: str, output_path: str, force: bool = False):
@@ -70,20 +79,20 @@ def build_cache(input_dir: str, output_path: str, force: bool = False):
 
     t0 = perf_counter()
     corpus: list[dict] = []
-    total_pages = 0
+    total_chunks = 0
 
     for i, pdf_path in enumerate(pdfs, 1):
-        chunks = extract_pages(pdf_path, input_dir)
-        total_pages += len(chunks)
+        chunks = extract_chunks(pdf_path, input_dir)
+        total_chunks += len(chunks)
         corpus.extend(chunks)
-        print(f"[{i}/{len(pdfs)}] {os.path.relpath(pdf_path, input_dir)}  ({len(chunks)} pages)")
+        print(f"[{i}/{len(pdfs)}] {os.path.relpath(pdf_path, input_dir)}  ({len(chunks)} chunks)")
 
     elapsed = round(perf_counter() - t0, 2)
 
     with open(output_path, "w", encoding="utf-8") as fp:
         json.dump(corpus, fp, ensure_ascii=False, indent=2)
 
-    print(f"\nDone — {total_pages} pages from {len(pdfs)} PDFs in {elapsed}s → {output_path}")
+    print(f"\nDone — {total_chunks} chunks from {len(pdfs)} PDFs in {elapsed}s → {output_path}")
 
 
 if __name__ == "__main__":

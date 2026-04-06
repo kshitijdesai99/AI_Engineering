@@ -1,0 +1,1182 @@
+{
+  "file": "evals/easy.csv",
+  "retrieval_k": 100,
+  "topk": 10,
+  "total": 17,
+  "correct": 17,
+  "accuracy": 1.0,
+  "results": [
+    {
+      "question": "What simple apparatus is used to detect charge on a body?",
+      "expected_source": "ncert_physics_class_12_part_1/leph101.pdf",
+      "expected_pages": [
+        3
+      ],
+      "keywords": [
+        "simple",
+        "apparatus",
+        "used",
+        "detect",
+        "charge",
+        "body"
+      ],
+      "match": true,
+      "top_results": [
+        {
+          "source": "ncert_physics_class_12_part_1/leph101.pdf",
+          "page": 3,
+          "rerank_score": 0.982876
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph101.pdf",
+          "page": 4,
+          "rerank_score": 0.889682
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph101.pdf",
+          "page": 4,
+          "rerank_score": 0.822189
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph101.pdf",
+          "page": 7,
+          "rerank_score": 0.506738
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph101.pdf",
+          "page": 2,
+          "rerank_score": 0.466457
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph101.pdf",
+          "page": 7,
+          "rerank_score": 0.401312
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph101.pdf",
+          "page": 4,
+          "rerank_score": 0.385652
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph101.pdf",
+          "page": 3,
+          "rerank_score": 0.300746
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph101.pdf",
+          "page": 37,
+          "rerank_score": 0.296817
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph101.pdf",
+          "page": 7,
+          "rerank_score": 0.271406
+        }
+      ]
+    },
+    {
+      "question": "How is the potential energy of a charge q at position r in an external field written?",
+      "expected_source": "ncert_physics_class_12_part_1/leph102.pdf",
+      "expected_pages": [
+        15
+      ],
+      "keywords": [
+        "potential",
+        "energy",
+        "charge",
+        "q",
+        "position",
+        "r",
+        "external",
+        "field",
+        "written"
+      ],
+      "match": true,
+      "top_results": [
+        {
+          "source": "ncert_physics_class_12_part_1/leph102.pdf",
+          "page": 15,
+          "rerank_score": 0.975873
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph102.pdf",
+          "page": 33,
+          "rerank_score": 0.872695
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph102.pdf",
+          "page": 3,
+          "rerank_score": 0.820354
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph102.pdf",
+          "page": 14,
+          "rerank_score": 0.81664
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph102.pdf",
+          "page": 32,
+          "rerank_score": 0.797178
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph102.pdf",
+          "page": 3,
+          "rerank_score": 0.792079
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph102.pdf",
+          "page": 14,
+          "rerank_score": 0.790012
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph102.pdf",
+          "page": 34,
+          "rerank_score": 0.775129
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph102.pdf",
+          "page": 4,
+          "rerank_score": 0.760651
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph102.pdf",
+          "page": 15,
+          "rerank_score": 0.712232
+        }
+      ]
+    },
+    {
+      "question": "What is 1 electron volt in joules?",
+      "expected_source": "ncert_physics_class_12_part_1/leph102.pdf",
+      "expected_pages": [
+        15
+      ],
+      "keywords": [
+        "1",
+        "electron",
+        "volt",
+        "joules"
+      ],
+      "match": true,
+      "top_results": [
+        {
+          "source": "ncert_physics_class_12_part_1/leph102.pdf",
+          "page": 15,
+          "rerank_score": 0.959398
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph102.pdf",
+          "page": 15,
+          "rerank_score": 0.937027
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph203.pdf",
+          "page": 2,
+          "rerank_score": 0.915869
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph204.pdf",
+          "page": 10,
+          "rerank_score": 0.888449
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph204.pdf",
+          "page": 10,
+          "rerank_score": 0.770741
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph204.pdf",
+          "page": 7,
+          "rerank_score": 0.530042
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph204.pdf",
+          "page": 7,
+          "rerank_score": 0.509716
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph205.pdf",
+          "page": 6,
+          "rerank_score": 0.359364
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph203.pdf",
+          "page": 2,
+          "rerank_score": 0.213115
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph101.pdf",
+          "page": 17,
+          "rerank_score": 0.212069
+        }
+      ]
+    },
+    {
+      "question": "Which physicist noticed that a current in a straight wire deflects a nearby magnetic compass needle?",
+      "expected_source": "ncert_physics_class_12_part_1/leph104.pdf",
+      "expected_pages": [
+        1
+      ],
+      "keywords": [
+        "physicist",
+        "noticed",
+        "current",
+        "straight",
+        "wire",
+        "deflects",
+        "nearby",
+        "magnetic",
+        "compass",
+        "needle"
+      ],
+      "match": true,
+      "top_results": [
+        {
+          "source": "ncert_physics_class_12_part_1/leph104.pdf",
+          "page": 1,
+          "rerank_score": 0.966105
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph104.pdf",
+          "page": 2,
+          "rerank_score": 0.966105
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph104.pdf",
+          "page": 1,
+          "rerank_score": 0.883397
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph106.pdf",
+          "page": 1,
+          "rerank_score": 0.828495
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph104.pdf",
+          "page": 12,
+          "rerank_score": 0.723622
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph104.pdf",
+          "page": 13,
+          "rerank_score": 0.625392
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph104.pdf",
+          "page": 13,
+          "rerank_score": 0.531404
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph104.pdf",
+          "page": 2,
+          "rerank_score": 0.393828
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph104.pdf",
+          "page": 23,
+          "rerank_score": 0.368042
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph108.pdf",
+          "page": 1,
+          "rerank_score": 0.322867
+        }
+      ]
+    },
+    {
+      "question": "Do isolated magnetic north and south poles exist?",
+      "expected_source": "ncert_physics_class_12_part_1/leph105.pdf",
+      "expected_pages": [
+        2
+      ],
+      "keywords": [
+        "isolated",
+        "magnetic",
+        "north",
+        "south",
+        "poles",
+        "exist"
+      ],
+      "match": true,
+      "top_results": [
+        {
+          "source": "ncert_physics_class_12_part_1/leph105.pdf",
+          "page": 2,
+          "rerank_score": 0.969231
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph105.pdf",
+          "page": 8,
+          "rerank_score": 0.960361
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph105.pdf",
+          "page": 15,
+          "rerank_score": 0.915869
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph105.pdf",
+          "page": 16,
+          "rerank_score": 0.906785
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph104.pdf",
+          "page": 23,
+          "rerank_score": 0.867036
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph105.pdf",
+          "page": 16,
+          "rerank_score": 0.825815
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph104.pdf",
+          "page": 23,
+          "rerank_score": 0.693971
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph105.pdf",
+          "page": 5,
+          "rerank_score": 0.538207
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph105.pdf",
+          "page": 9,
+          "rerank_score": 0.532377
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph105.pdf",
+          "page": 2,
+          "rerank_score": 0.475021
+        }
+      ]
+    },
+    {
+      "question": "Whose pioneering experiments led directly to the development of modern generators and transformers?",
+      "expected_source": "ncert_physics_class_12_part_1/leph106.pdf",
+      "expected_pages": [
+        2
+      ],
+      "keywords": [
+        "pioneering",
+        "experiments",
+        "led",
+        "directly",
+        "development",
+        "modern",
+        "generators",
+        "transformers"
+      ],
+      "match": true,
+      "top_results": [
+        {
+          "source": "ncert_physics_class_12_part_1/leph106.pdf",
+          "page": 2,
+          "rerank_score": 0.934011
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph106.pdf",
+          "page": 1,
+          "rerank_score": 0.708374
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph106.pdf",
+          "page": 17,
+          "rerank_score": 0.55138
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph107.pdf",
+          "page": 3,
+          "rerank_score": 0.544026
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph107.pdf",
+          "page": 20,
+          "rerank_score": 0.30869
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph107.pdf",
+          "page": 20,
+          "rerank_score": 0.276378
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph107.pdf",
+          "page": 1,
+          "rerank_score": 0.272644
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph106.pdf",
+          "page": 19,
+          "rerank_score": 0.267714
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph107.pdf",
+          "page": 18,
+          "rerank_score": 0.260427
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph103.pdf",
+          "page": 17,
+          "rerank_score": 0.259225
+        }
+      ]
+    },
+    {
+      "question": "According to Lenz's law what does the induced current oppose?",
+      "expected_source": "ncert_physics_class_12_part_1/leph106.pdf",
+      "expected_pages": [
+        7
+      ],
+      "keywords": [
+        "according",
+        "lenz",
+        "s",
+        "law",
+        "does",
+        "induced",
+        "current",
+        "oppose"
+      ],
+      "match": true,
+      "top_results": [
+        {
+          "source": "ncert_physics_class_12_part_1/leph106.pdf",
+          "page": 7,
+          "rerank_score": 0.969968
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph106.pdf",
+          "page": 7,
+          "rerank_score": 0.924142
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph106.pdf",
+          "page": 7,
+          "rerank_score": 0.918714
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph106.pdf",
+          "page": 20,
+          "rerank_score": 0.911936
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph106.pdf",
+          "page": 8,
+          "rerank_score": 0.890903
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph106.pdf",
+          "page": 7,
+          "rerank_score": 0.879478
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph106.pdf",
+          "page": 8,
+          "rerank_score": 0.793106
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph106.pdf",
+          "page": 7,
+          "rerank_score": 0.792079
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph106.pdf",
+          "page": 21,
+          "rerank_score": 0.787931
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph106.pdf",
+          "page": 20,
+          "rerank_score": 0.783724
+        }
+      ]
+    },
+    {
+      "question": "What speed of light is quoted when discussing electromagnetic waves?",
+      "expected_source": "ncert_physics_class_12_part_1/leph108.pdf",
+      "expected_pages": [
+        2
+      ],
+      "keywords": [
+        "speed",
+        "light",
+        "quoted",
+        "discussing",
+        "electromagnetic",
+        "waves"
+      ],
+      "match": true,
+      "top_results": [
+        {
+          "source": "ncert_physics_class_11_part_2/keph207.pdf",
+          "page": 2,
+          "rerank_score": 0.964429
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph201.pdf",
+          "page": 1,
+          "rerank_score": 0.964429
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph201.pdf",
+          "page": 1,
+          "rerank_score": 0.960361
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph108.pdf",
+          "page": 7,
+          "rerank_score": 0.958909
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph108.pdf",
+          "page": 2,
+          "rerank_score": 0.93776
+        },
+        {
+          "source": "ncert_physics_class_11_part_2/keph203.pdf",
+          "page": 17,
+          "rerank_score": 0.937027
+        },
+        {
+          "source": "ncert_physics_class_11_part_2/keph203.pdf",
+          "page": 17,
+          "rerank_score": 0.904651
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph108.pdf",
+          "page": 12,
+          "rerank_score": 0.903567
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph104.pdf",
+          "page": 8,
+          "rerank_score": 0.887205
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph108.pdf",
+          "page": 7,
+          "rerank_score": 0.862653
+        }
+      ]
+    },
+    {
+      "question": "What wavelength range of the electromagnetic spectrum is called light?",
+      "expected_source": "ncert_physics_class_12_part_2/leph201.pdf",
+      "expected_pages": [
+        1
+      ],
+      "keywords": [
+        "wavelength",
+        "range",
+        "electromagnetic",
+        "spectrum",
+        "called",
+        "light"
+      ],
+      "match": true,
+      "top_results": [
+        {
+          "source": "ncert_physics_class_12_part_2/leph201.pdf",
+          "page": 1,
+          "rerank_score": 0.975873
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph108.pdf",
+          "page": 10,
+          "rerank_score": 0.948461
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph108.pdf",
+          "page": 12,
+          "rerank_score": 0.65701
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph108.pdf",
+          "page": 8,
+          "rerank_score": 0.637031
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph108.pdf",
+          "page": 10,
+          "rerank_score": 0.636308
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph202.pdf",
+          "page": 2,
+          "rerank_score": 0.587754
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph108.pdf",
+          "page": 13,
+          "rerank_score": 0.575206
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph201.pdf",
+          "page": 1,
+          "rerank_score": 0.549641
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph108.pdf",
+          "page": 8,
+          "rerank_score": 0.538401
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph108.pdf",
+          "page": 2,
+          "rerank_score": 0.515425
+        }
+      ]
+    },
+    {
+      "question": "For a telescope with objective focal length 100 cm and eyepiece focal length 1 cm what is its magnifying power?",
+      "expected_source": "ncert_physics_class_12_part_2/leph201.pdf",
+      "expected_pages": [
+        25
+      ],
+      "keywords": [
+        "telescope",
+        "objective",
+        "focal",
+        "length",
+        "100",
+        "cm",
+        "eyepiece",
+        "focal",
+        "length",
+        "1",
+        "cm",
+        "magnifying",
+        "power"
+      ],
+      "match": true,
+      "top_results": [
+        {
+          "source": "ncert_physics_class_12_part_2/leph201.pdf",
+          "page": 25,
+          "rerank_score": 0.952006
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph201.pdf",
+          "page": 28,
+          "rerank_score": 0.824914
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph2an.pdf",
+          "page": 6,
+          "rerank_score": 0.673707
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph201.pdf",
+          "page": 24,
+          "rerank_score": 0.642073
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph201.pdf",
+          "page": 30,
+          "rerank_score": 0.632684
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph201.pdf",
+          "page": 32,
+          "rerank_score": 0.576351
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph201.pdf",
+          "page": 32,
+          "rerank_score": 0.542669
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph2an.pdf",
+          "page": 6,
+          "rerank_score": 0.524882
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph201.pdf",
+          "page": 24,
+          "rerank_score": 0.512693
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph2an.pdf",
+          "page": 3,
+          "rerank_score": 0.45423
+        }
+      ]
+    },
+    {
+      "question": "How is a wavefront defined?",
+      "expected_source": "ncert_physics_class_12_part_2/leph202.pdf",
+      "expected_pages": [
+        3
+      ],
+      "keywords": [
+        "wavefront",
+        "defined"
+      ],
+      "match": true,
+      "top_results": [
+        {
+          "source": "ncert_physics_class_12_part_2/leph202.pdf",
+          "page": 3,
+          "rerank_score": 0.972077
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph202.pdf",
+          "page": 3,
+          "rerank_score": 0.896831
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph202.pdf",
+          "page": 18,
+          "rerank_score": 0.81664
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph202.pdf",
+          "page": 3,
+          "rerank_score": 0.79515
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph202.pdf",
+          "page": 4,
+          "rerank_score": 0.780529
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph202.pdf",
+          "page": 4,
+          "rerank_score": 0.771843
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph202.pdf",
+          "page": 3,
+          "rerank_score": 0.744359
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph202.pdf",
+          "page": 4,
+          "rerank_score": 0.649223
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph202.pdf",
+          "page": 7,
+          "rerank_score": 0.644941
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph202.pdf",
+          "page": 5,
+          "rerank_score": 0.606172
+        }
+      ]
+    },
+    {
+      "question": "What is the accepted value of e/m for cathode ray particles?",
+      "expected_source": "ncert_physics_class_12_part_2/leph203.pdf",
+      "expected_pages": [
+        2
+      ],
+      "keywords": [
+        "accepted",
+        "value",
+        "e",
+        "m",
+        "cathode",
+        "ray",
+        "particles"
+      ],
+      "match": true,
+      "top_results": [
+        {
+          "source": "ncert_physics_class_12_part_2/leph203.pdf",
+          "page": 2,
+          "rerank_score": 0.923261
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph203.pdf",
+          "page": 2,
+          "rerank_score": 0.582063
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph203.pdf",
+          "page": 1,
+          "rerank_score": 0.235952
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph206.pdf",
+          "page": 1,
+          "rerank_score": 0.089074
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph206.pdf",
+          "page": 2,
+          "rerank_score": 0.088064
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph206.pdf",
+          "page": 1,
+          "rerank_score": 0.087066
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph201.pdf",
+          "page": 20,
+          "rerank_score": 0.083173
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph1an.pdf",
+          "page": 6,
+          "rerank_score": 0.076739
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph204.pdf",
+          "page": 15,
+          "rerank_score": 0.074987
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph106.pdf",
+          "page": 18,
+          "rerank_score": 0.073271
+        }
+      ]
+    },
+    {
+      "question": "Who discovered photoelectric emission in 1887?",
+      "expected_source": "ncert_physics_class_12_part_2/leph203.pdf",
+      "expected_pages": [
+        3
+      ],
+      "keywords": [
+        "discovered",
+        "photoelectric",
+        "emission",
+        "1887"
+      ],
+      "match": true,
+      "top_results": [
+        {
+          "source": "ncert_physics_class_12_part_2/leph203.pdf",
+          "page": 3,
+          "rerank_score": 0.946597
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph203.pdf",
+          "page": 3,
+          "rerank_score": 0.765172
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph108.pdf",
+          "page": 6,
+          "rerank_score": 0.619517
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph203.pdf",
+          "page": 2,
+          "rerank_score": 0.506152
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph108.pdf",
+          "page": 6,
+          "rerank_score": 0.461405
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph203.pdf",
+          "page": 4,
+          "rerank_score": 0.316074
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph203.pdf",
+          "page": 7,
+          "rerank_score": 0.303381
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph203.pdf",
+          "page": 13,
+          "rerank_score": 0.286489
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph203.pdf",
+          "page": 14,
+          "rerank_score": 0.278885
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph203.pdf",
+          "page": 9,
+          "rerank_score": 0.278885
+        }
+      ]
+    },
+    {
+      "question": "What was the thickness of the gold foil used in Rutherford's scattering experiment?",
+      "expected_source": "ncert_physics_class_12_part_2/leph204.pdf",
+      "expected_pages": [
+        3
+      ],
+      "keywords": [
+        "thickness",
+        "gold",
+        "foil",
+        "used",
+        "rutherford",
+        "s",
+        "scattering",
+        "experiment"
+      ],
+      "match": true,
+      "top_results": [
+        {
+          "source": "ncert_physics_class_12_part_2/leph204.pdf",
+          "page": 3,
+          "rerank_score": 0.901366
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph204.pdf",
+          "page": 4,
+          "rerank_score": 0.430914
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph205.pdf",
+          "page": 4,
+          "rerank_score": 0.304703
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph205.pdf",
+          "page": 4,
+          "rerank_score": 0.276378
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph204.pdf",
+          "page": 6,
+          "rerank_score": 0.268941
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph204.pdf",
+          "page": 3,
+          "rerank_score": 0.248571
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph204.pdf",
+          "page": 4,
+          "rerank_score": 0.218403
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph204.pdf",
+          "page": 4,
+          "rerank_score": 0.19881
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph204.pdf",
+          "page": 3,
+          "rerank_score": 0.191933
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph204.pdf",
+          "page": 4,
+          "rerank_score": 0.178726
+        }
+      ]
+    },
+    {
+      "question": "What is the ground state energy E1 of the hydrogen atom?",
+      "expected_source": "ncert_physics_class_12_part_2/leph204.pdf",
+      "expected_pages": [
+        11
+      ],
+      "keywords": [
+        "ground",
+        "state",
+        "energy",
+        "e1",
+        "hydrogen",
+        "atom"
+      ],
+      "match": true,
+      "top_results": [
+        {
+          "source": "ncert_physics_class_12_part_2/leph204.pdf",
+          "page": 11,
+          "rerank_score": 0.956374
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph204.pdf",
+          "page": 14,
+          "rerank_score": 0.94131
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph204.pdf",
+          "page": 14,
+          "rerank_score": 0.936285
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph204.pdf",
+          "page": 11,
+          "rerank_score": 0.910926
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph204.pdf",
+          "page": 16,
+          "rerank_score": 0.867036
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph204.pdf",
+          "page": 7,
+          "rerank_score": 0.845535
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph204.pdf",
+          "page": 7,
+          "rerank_score": 0.824914
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph204.pdf",
+          "page": 10,
+          "rerank_score": 0.782662
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph204.pdf",
+          "page": 11,
+          "rerank_score": 0.765172
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph204.pdf",
+          "page": 16,
+          "rerank_score": 0.69131
+        }
+      ]
+    },
+    {
+      "question": "Which elemental semiconductors are specifically studied in this chapter?",
+      "expected_source": "ncert_physics_class_12_part_2/leph206.pdf",
+      "expected_pages": [
+        3
+      ],
+      "keywords": [
+        "elemental",
+        "semiconductors",
+        "specifically",
+        "studied",
+        "chapter"
+      ],
+      "match": true,
+      "top_results": [
+        {
+          "source": "ncert_physics_class_12_part_2/leph206.pdf",
+          "page": 2,
+          "rerank_score": 0.93776
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph206.pdf",
+          "page": 3,
+          "rerank_score": 0.930862
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph206.pdf",
+          "page": 7,
+          "rerank_score": 0.85662
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph206.pdf",
+          "page": 5,
+          "rerank_score": 0.843895
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph206.pdf",
+          "page": 18,
+          "rerank_score": 0.842241
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph206.pdf",
+          "page": 18,
+          "rerank_score": 0.796166
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph206.pdf",
+          "page": 19,
+          "rerank_score": 0.761787
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph206.pdf",
+          "page": 2,
+          "rerank_score": 0.738367
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph206.pdf",
+          "page": 8,
+          "rerank_score": 0.721115
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph206.pdf",
+          "page": 5,
+          "rerank_score": 0.682574
+        }
+      ]
+    },
+    {
+      "question": "In an unbiased p-n junction why do holes diffuse from the p-region to the n-region?",
+      "expected_source": "ncert_physics_class_12_part_2/leph206.pdf",
+      "expected_pages": [
+        20
+      ],
+      "keywords": [
+        "unbiased",
+        "p",
+        "n",
+        "junction",
+        "holes",
+        "diffuse",
+        "p",
+        "region",
+        "n",
+        "region"
+      ],
+      "match": true,
+      "top_results": [
+        {
+          "source": "ncert_physics_class_12_part_2/leph206.pdf",
+          "page": 11,
+          "rerank_score": 0.967705
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph206.pdf",
+          "page": 11,
+          "rerank_score": 0.939204
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph206.pdf",
+          "page": 11,
+          "rerank_score": 0.925876
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph206.pdf",
+          "page": 11,
+          "rerank_score": 0.802184
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph206.pdf",
+          "page": 20,
+          "rerank_score": 0.77838
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph206.pdf",
+          "page": 12,
+          "rerank_score": 0.774037
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph206.pdf",
+          "page": 13,
+          "rerank_score": 0.75722
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph206.pdf",
+          "page": 13,
+          "rerank_score": 0.727356
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph206.pdf",
+          "page": 13,
+          "rerank_score": 0.72237
+        },
+        {
+          "source": "ncert_physics_class_12_part_2/leph206.pdf",
+          "page": 12,
+          "rerank_score": 0.693971
+        }
+      ]
+    }
+  ]
+}
