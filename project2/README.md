@@ -1,23 +1,42 @@
-# Project 2 — BM25 Document Retrieval Eval
+# Project 2 — BM25 + Rerank + LLM Answer Pipeline
 
-Builds a searchable text corpus from a directory of PDFs and evaluates BM25-based keyword retrieval against ground-truth question/answer pairs. No LLM involved — pure lexical search.
+Two-stage retrieval (BM25 → ZeroEntropy reranker) with LLM answer generation over a chunked PDF corpus.
+
+## Pipeline
+
+```
+Question
+    ↓
+[BM25]  — retrieve top-100 candidate chunks by keyword overlap
+    ↓
+[ZeroEntropy Reranker (zerank-2)]  — score & re-rank, keep top-10
+    ↓
+[Expand Context]  — add all chunks from prev/next page of each hit
+    ↓
+[LLM (Gemini / OpenAI)]  — generate answer with source citations
+    ↓
+Answer
+```
 
 ## Eval Results
 
-| File | Questions | Score |
-|---|---|---|
-| `evals/easy.csv` | 18 | **17/18 (94.4%)** |
-| `evals/hard.csv` | 9 | **9/9 (100%)** |
+| File | Questions | BM25 Only | BM25 + Rerank |
+|---|---|---|---|
+| `evals/easy.csv` | 17 | **17/17 (100%)** | **17/17 (100%)** |
+| `evals/hard.csv` | 9 | **9/9 (100%)** | **9/9 (100%)** |
 
 ## Files
 
 | File | Description |
 |---|---|
-| `build_cache.py` | Extracts text from every PDF in `input/` and saves it to `corpus.json` |
-| `keyword_search.py` | BM25 retrieval eval — scores corpus pages per question, checks if the correct page is in top-k |
-| `corpus.json` | Pre-built text index (page-level chunks from all PDFs) |
-| `evals/easy.csv` | 18 factual questions with source PDF, page, and expected answer |
-| `evals/hard.csv` | 9 harder questions with source PDF, page, and expected answer |
+| `build_cache.py` | Extracts PDF text, splits into 800-char chunks (200 overlap) → `corpus.json` |
+| `keyword_search.py` | BM25 retrieval eval — top-100 candidates, checks if correct page is in top-k |
+| `rerank.py` | ZeroEntropy API reranker — scores `(query, chunk)` pairs, returns top-k |
+| `rerank_search.py` | Two-stage eval: BM25 → rerank |
+| `answer.py` | Full pipeline: BM25 → rerank → expand context → LLM answer |
+| `corpus.json` | Pre-built chunk index (3,241 chunks from 37 PDFs) |
+| `evals/easy.csv` | 17 factual questions with source PDF + page |
+| `evals/hard.csv` | 9 harder questions with source PDF + page |
 
 ## Setup
 
@@ -25,91 +44,60 @@ Builds a searchable text corpus from a directory of PDFs and evaluates BM25-base
 uv sync
 ```
 
-No API keys required.
+Required env vars in `.env`:
+
+| Key | Used by |
+|---|---|
+| `ZEROENTROPY_API_KEY` | `rerank.py` |
+| `GEMINI_API_KEY` | `answer.py` (default provider) |
+| `OPENAI_API_KEY` | `answer.py` (optional) |
 
 ## Usage
 
 ### Build the corpus
 
-Run once before using `keyword_search.py`. Skip if `corpus.json` already exists.
-
 ```bash
-python build_cache.py
-```
-
-```bash
-# Force rebuild
-python build_cache.py --force
-
-# Custom paths
-python build_cache.py --input input/ --output corpus.json
+uv run python build_cache.py --force
 ```
 
 | Argument | Default | Description |
 |---|---|---|
 | `--input` | `input/` | Directory to scan for PDFs (recursive) |
-| `--output` | `corpus.json` | Output path for the text index |
+| `--output` | `corpus.json` | Output path |
 | `--force` | off | Overwrite existing `corpus.json` |
 
-### Run the retrieval eval
+### Run evals
 
 ```bash
-python keyword_search.py --file evals/easy.csv
-python keyword_search.py --file evals/hard.csv
-```
-
-```bash
-# Custom top-k and output path
-python keyword_search.py --file evals/easy.csv --topk 10 --out evals/my_results.json
+uv run python keyword_search.py --file evals/easy.csv
+uv run python rerank_search.py --file evals/hard.csv
 ```
 
 | Argument | Default | Description |
 |---|---|---|
-| `--file` | `evals/easy.csv` | Eval CSV (columns: `Question`, ` PDF`, ` Page`, ` Answer`) |
-| `--out` | auto-generated | Output JSON path (defaults to `evals/results_{file}_keyword.json`) |
-| `--topk` | `5` | Number of top pages to retrieve per question |
+| `--file` | `evals/easy.csv` | Eval CSV |
+| `--out` | auto | Output JSON path |
+| `--retrieval_k` | `100` | BM25 candidate pool |
+| `--topk` | `5` / `10` | Final chunks returned |
 
-### Interpreting eval output
+### Ask a question
 
-**Per-question line:**
+Edit `query.txt` with your question, then run:
 
-```
-[1/18] ✅  expected=leph101.pdf:3  top=leph101.pdf:p3  | What simple apparatus is used to detect charge on a body?
-[2/18] ❌  expected=leph103.pdf:2  top=keph101.pdf:p2  | What is the SI unit of current?
-```
-
-| Symbol | Meaning |
-|---|---|
-| `✅` | Correct source PDF + page found within top-k results |
-| `❌` | Expected page not found in top-k |
-| `expected=` | Ground-truth source and page from the CSV |
-| `top=` | Highest-scored result returned by BM25 |
-
-**Summary line:**
-
-```
-17/18 correct (94.4%) in 0.01s — evals/results_easy_keyword.json
+```bash
+uv run python answer.py
 ```
 
-## How It Works
+Or pass the query directly:
 
-```
-Question
-    ↓
-[extract_keywords]  — lowercase, tokenize, remove stop words
-    ↓
-[BM25Okapi.get_scores]  — score all 733 corpus pages
-    ↓
-[top-k results]  — sort by score, take top-k
-    ↓
-[is_hit]  — check if expected source + page appears in top-k
-    ↓
-✅ / ❌
+```bash
+uv run python answer.py --query "What is Coulomb's law?"
+uv run python answer.py --query "What is Coulomb's law?" --provider openai
 ```
 
-**Key design decisions:**
-
-- **BM25Okapi** (via `rank_bm25`) — weights rare terms higher and penalizes long pages, outperforming simple hit-count scoring
-- **Index built once per eval run** — `build_bm25()` tokenizes all 733 pages upfront, then each query is a single `get_scores()` call (~0.01s total)
-- **Page-level retrieval** — corpus chunks are individual PDF pages, so retrieval is precise to the page
-- **No LLM** — entirely deterministic; same query always returns the same ranked list
+| Argument | Default | Description |
+|---|---|---|
+| `--query` | `query.txt` | Question to answer (overrides `query.txt`) |
+| `--topk` | `10` | Reranked chunks passed to expand + LLM |
+| `--retrieval_k` | `100` | BM25 candidate pool |
+| `--provider` | `gemini` | `gemini` or `openai` |

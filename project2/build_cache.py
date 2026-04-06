@@ -14,11 +14,11 @@ import sys
 from time import perf_counter
 import pypdf
 
-_DIR = os.path.dirname(os.path.abspath(__file__))
+_DIR = os.path.dirname(os.path.abspath(__file__))  # Directory of this script
 DEFAULT_INPUT  = os.path.join(_DIR, "input")
 DEFAULT_OUTPUT = os.path.join(_DIR, "corpus.json")
-CHUNK_SIZE     = 800
-CHUNK_OVERLAP  = 200
+CHUNK_SIZE     = 800   # Max chars per chunk
+CHUNK_OVERLAP  = 200   # Overlap between consecutive chunks to avoid cutting context at boundaries
 
 
 def find_pdfs(input_dir: str) -> list[str]:
@@ -37,23 +37,23 @@ def chunk_text(text: str, chunk_size: int = CHUNK_SIZE, overlap: int = CHUNK_OVE
     chunks = []
     start = 0
     while start < len(text):
-        chunks.append(text[start : start + chunk_size])
-        start += chunk_size - overlap
+        chunks.append(text[start : start + chunk_size])  # Slice fixed-size window
+        start += chunk_size - overlap                    # Advance by (chunk_size - overlap) to create overlap
     return chunks
 
 
 def extract_chunks(pdf_path: str, input_dir: str) -> list[dict]:
     """Extract text from a PDF and split each page into fixed-size chunks."""
     result = []
-    rel_path = os.path.relpath(pdf_path, input_dir)
+    rel_path = os.path.relpath(pdf_path, input_dir)  # Relative path used as source identifier
     reader = pypdf.PdfReader(pdf_path)
 
     for page_num, page in enumerate(reader.pages, 1):
-        text = (page.extract_text() or "").strip()
+        text = (page.extract_text() or "").strip()  # Extract raw text, skip blank pages
         if not text:
             continue
 
-        for chunk_index, chunk in enumerate(chunk_text(text), 1):
+        for chunk_index, chunk in enumerate(chunk_text(text), 1):  # chunk_index is 1-based within each page
             word_count = len(chunk.split())
             result.append({
                 "source":      rel_path,
@@ -61,7 +61,7 @@ def extract_chunks(pdf_path: str, input_dir: str) -> list[dict]:
                 "chunk_index": chunk_index,
                 "text":        chunk,
                 "word_count":  word_count,
-                "low_text":    word_count < 20,
+                "low_text":    word_count < 20,  # Flag sparse chunks (likely headers or footers)
             })
 
     return result
@@ -82,7 +82,7 @@ def build_cache(input_dir: str, output_path: str, force: bool = False):
     total_chunks = 0
 
     for i, pdf_path in enumerate(pdfs, 1):
-        chunks = extract_chunks(pdf_path, input_dir)
+        chunks = extract_chunks(pdf_path, input_dir)  # Extract and chunk all pages from this PDF
         total_chunks += len(chunks)
         corpus.extend(chunks)
         print(f"[{i}/{len(pdfs)}] {os.path.relpath(pdf_path, input_dir)}  ({len(chunks)} chunks)")
@@ -90,7 +90,7 @@ def build_cache(input_dir: str, output_path: str, force: bool = False):
     elapsed = round(perf_counter() - t0, 2)
 
     with open(output_path, "w", encoding="utf-8") as fp:
-        json.dump(corpus, fp, ensure_ascii=False, indent=2)
+        json.dump(corpus, fp, ensure_ascii=False, indent=2)  # Save full corpus to JSON
 
     print(f"\nDone — {total_chunks} chunks from {len(pdfs)} PDFs in {elapsed}s → {output_path}")
 

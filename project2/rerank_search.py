@@ -13,16 +13,16 @@ from time import perf_counter
 from keyword_search import load_corpus, build_bm25, tokenize, search, normalise_source, parse_pages, is_hit
 from rerank import rerank
 
-_DIR = os.path.dirname(os.path.abspath(__file__))
+_DIR = os.path.dirname(os.path.abspath(__file__))  # Directory of this script
 CORPUS_PATH = os.path.join(_DIR, "corpus.json")
 
 
 def run_evals(csv_path: str, out_path: str, topk: int = 5, retrieval_k: int = 100):
-    corpus = load_corpus(CORPUS_PATH)
-    bm25 = build_bm25(corpus)
+    corpus = load_corpus(CORPUS_PATH)   # Load all chunks from corpus.json
+    bm25 = build_bm25(corpus)          # Build BM25 index over all chunks
 
     with open(csv_path, encoding="utf-8") as f:
-        rows = list(csv.DictReader(f))
+        rows = list(csv.DictReader(f))  # Read all eval rows from CSV
 
     total = len(rows)
     print(f"Evaluating {total} questions from {csv_path} (retrieval_k={retrieval_k}, topk={topk})\n")
@@ -34,13 +34,13 @@ def run_evals(csv_path: str, out_path: str, topk: int = 5, retrieval_k: int = 10
         question        = row["Question"].strip()
         csv_source      = row[" PDF"].strip()
         page_str        = row[" Page"].strip()
-        expected_source = normalise_source(csv_source)
-        expected_pages  = parse_pages(page_str)
+        expected_source = normalise_source(csv_source)  # Normalise path for comparison
+        expected_pages  = parse_pages(page_str)         # Parse "13" or "13-14" into a set of ints
 
-        keywords    = tokenize(question)
-        candidates  = search(bm25, corpus, keywords, retrieval_k)
-        hits        = rerank(question, candidates, topk)
-        match       = is_hit(hits, expected_source, expected_pages)
+        keywords    = tokenize(question)                          # Stage 1: keyword extraction
+        candidates  = search(bm25, corpus, keywords, retrieval_k) # Stage 1: BM25 top-retrieval_k chunks
+        hits        = rerank(question, candidates, topk)          # Stage 2: ZeroEntropy reranker → top-k
+        match       = is_hit(hits, expected_source, expected_pages) # Check if correct page is in top-k
 
         status = "✅" if match else "❌"
         top_result = f"{hits[0]['source']}:p{hits[0]['page']}" if hits else "none"
@@ -73,7 +73,7 @@ def run_evals(csv_path: str, out_path: str, topk: int = 5, retrieval_k: int = 10
     }
 
     with open(out_path, "w", encoding="utf-8") as f:
-        json.dump(summary, f, indent=2)
+        json.dump(summary, f, indent=2)  # Save full results to JSON
 
     print(f"\n{correct}/{total} correct ({accuracy:.1%}) in {elapsed}s — {out_path}")
 
@@ -89,7 +89,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     if args.out is None:
-        stem     = os.path.splitext(os.path.basename(args.file))[0]
+        stem     = os.path.splitext(os.path.basename(args.file))[0]  # e.g. "easy" from "easy.csv"
         args.out = os.path.join(_DIR, "evals", f"results_{stem}_rerank.json")
 
     run_evals(args.file, args.out, topk=args.topk, retrieval_k=args.retrieval_k)

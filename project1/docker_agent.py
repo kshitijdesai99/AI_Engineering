@@ -8,6 +8,7 @@ sub-agents (compute vs. visualize) with dedicated prompts.
 """
 import sys
 import os
+import argparse
 import signal
 import httpx
 from dotenv import load_dotenv
@@ -311,8 +312,12 @@ def get_agent(provider: str, max_tool_calls: int = MAX_TOOL_CALLS):
 
 if __name__ == "__main__":
     # ── setup ───────────────────────────────────────────────
-    provider = sys.argv[1] if len(sys.argv) > 1 else "gemini" # Default to gemini if no argument provided
-    agent, recursion_limit = get_agent(provider)
+    parser = argparse.ArgumentParser(description="Run the Docker code execution agent")
+    parser.add_argument("--provider", default="gemini", choices=list(PROVIDERS), help="LLM provider")
+    parser.add_argument("--query",    default=None,      help="Query to run (overrides query.txt)")
+    args = parser.parse_args()
+
+    agent, recursion_limit = get_agent(args.provider)  # Create the agent with the chosen provider
 
     messages = []
     recursion_limit_hit = False
@@ -326,8 +331,14 @@ if __name__ == "__main__":
     signal.alarm(AGENT_TIMEOUT)                # Start the countdown
     try:
         # ── stream agent ────────────────────────────────────
+        if args.query:
+            query = args.query  # CLI arg takes priority
+        else:
+            with open(os.path.join(_DIR, "query.txt"), encoding="utf-8") as f:
+                query = f.read().strip()  # Fall back to query.txt
+
         for chunk in agent.stream(
-            {"messages": [HumanMessage(open(os.path.join(_DIR, "query.txt")).read().strip())]},
+            {"messages": [HumanMessage(query)]},
             config={"recursion_limit": recursion_limit},
             stream_mode="values",
         ):

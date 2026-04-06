@@ -36,11 +36,23 @@ docker build -t code-executor:latest .
 
 ### Run the agent interactively
 
+Edit `query.txt` with your query, then run:
+
 ```bash
-python docker_agent.py [gemini|openai|openrouter]
+uv run python docker_agent.py
 ```
 
-The query is read from `query.txt`. Edit that file to change the input.
+Or pass the query directly:
+
+```bash
+uv run python docker_agent.py --query "What is the 100th prime number?"
+uv run python docker_agent.py --query "Plot a sine wave" --provider openai
+```
+
+| Argument | Default | Description |
+|---|---|---|
+| `--provider` | `gemini` | LLM provider: `gemini`, `openai`, or `openrouter` |
+| `--query` | `query.txt` | Query to run (overrides `query.txt`) |
 
 ### Run evals
 
