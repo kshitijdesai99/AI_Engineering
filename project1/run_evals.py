@@ -1,7 +1,4 @@
-"""
-Eval runner for the LLM Code Execution Agent.
-Reads question/answer pairs from a CSV, runs each through the agent,
-extracts numeric answers, and reports accuracy.
+"""Eval runner for the LLM Code Execution Agent — runs CSV questions through the agent and reports accuracy.
 
 Usage:
     python run_evals.py [gemini|openai|openrouter] [--file evals/train.csv] [--out evals/results.json]

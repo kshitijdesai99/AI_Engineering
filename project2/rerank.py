@@ -1,3 +1,4 @@
+"""ZeroEntropy reranker — scores (query, chunk) pairs via API, returns top-k chunks."""
 import os
 from dotenv import load_dotenv
 from zeroentropy import ZeroEntropy

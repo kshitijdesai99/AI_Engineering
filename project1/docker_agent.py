@@ -1,10 +1,7 @@
-"""
-Agent that executes LLM-generated code inside a local Docker container.
-Uses docker_tool.execute_docker as the execution backend instead of the
-model's native sandbox. Swap the LLM to change providers.
+"""LangGraph agent that executes LLM-generated code in a Docker container via router → compute/viz/chat sub-agents.
 
-Includes a router that classifies queries and dispatches to specialized
-sub-agents (compute vs. visualize) with dedicated prompts.
+Usage:
+    python docker_agent.py [--provider gemini] [--query "..."]  # defaults to query.txt
 """
 import sys
 import os

@@ -1,8 +1,4 @@
-"""
-LangChain tool that runs arbitrary Python code inside a persistent Docker container.
-The container is started once and reused across script runs via a stored container ID.
-Provides isolation, memory/CPU limits, and cleanup. Used by docker_agent.py.
-"""
+"""LangChain tool that runs Python code inside a persistent Docker container. Used by docker_agent.py."""
 import docker
 from langchain_core.tools import tool
 import os

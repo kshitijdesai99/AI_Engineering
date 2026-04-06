@@ -30,9 +30,10 @@ Answer
 | File | Description |
 |---|---|
 | `build_cache.py` | Extracts PDF text, splits into 800-char chunks (200 overlap) → `corpus.json` |
-| `keyword_search.py` | BM25 retrieval eval — top-100 candidates, checks if correct page is in top-k |
+| `retrieval.py` | Shared BM25 utilities: `load_corpus`, `build_bm25`, `tokenize`, `search`, `is_hit` |
+| `eval_keyword.py` | BM25-only retrieval eval — checks if correct page is in top-k |
 | `rerank.py` | ZeroEntropy API reranker — scores `(query, chunk)` pairs, returns top-k |
-| `rerank_search.py` | Two-stage eval: BM25 → rerank |
+| `eval_rerank.py` | Two-stage eval: BM25 → rerank |
 | `answer.py` | Full pipeline: BM25 → rerank → expand context → LLM answer |
 | `corpus.json` | Pre-built chunk index (3,241 chunks from 37 PDFs) |
 | `evals/easy.csv` | 17 factual questions with source PDF + page |
@@ -69,8 +70,8 @@ uv run python build_cache.py --force
 ### Run evals
 
 ```bash
-uv run python keyword_search.py --file evals/easy.csv
-uv run python rerank_search.py --file evals/hard.csv
+uv run python eval_keyword.py --file evals/easy.csv
+uv run python eval_rerank.py --file evals/hard.csv
 ```
 
 | Argument | Default | Description |

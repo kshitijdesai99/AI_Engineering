@@ -75,8 +75,9 @@ projectN/
 
 ### Module Docstrings
 
-- Every `.py` file has a top-level `"""..."""` docstring: one-liner purpose, then usage example
-- Format: description → blank line → `Usage:` block with CLI examples
+- Every `.py` file starts with a `"""one-liner description."""` as the very first line
+- Library modules (no CLI): one-liner only — e.g. `"""ZeroEntropy reranker — scores pairs, returns top-k."""`
+- Script modules (with CLI): one-liner → blank line → `Usage:` block with CLI example
 
 ### README.md
 

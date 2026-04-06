@@ -12,7 +12,7 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_openai import ChatOpenAI
 from langchain_core.messages import SystemMessage, HumanMessage
 
-from keyword_search import load_corpus, build_bm25, tokenize, search
+from retrieval import load_corpus, build_bm25, tokenize, search
 from rerank import rerank
 
 load_dotenv()
