@@ -2,13 +2,16 @@
   "provider": "openai",
   "file": "evals/train.csv",
   "mode": "parallel (3 workers)",
-  "timestamp": "2026-04-02T22:05:17.166203",
+  "timestamp": "2026-04-06T13:24:45.641177",
   "total": 20,
   "correct": 20,
   "accuracy": 1.0,
-  "wall_time_s": 27.85,
-  "avg_latency_s": 4.16,
+  "wall_time_s": 33.26,
+  "avg_latency_s": 4.79,
   "avg_tool_calls": 1.0,
+  "tool_used": 20,
+  "tool_correct": 20,
+  "tool_wrong": 0,
   "total_errors": 0,
   "results": [
     {
@@ -19,9 +22,11 @@
       "match": true,
       "tool_calls": 1,
       "errors": 0,
+      "tool_raw": "541",
+      "tool_correct": true,
       "recursion_hit": false,
       "timed_out": false,
-      "latency_s": 9.44
+      "latency_s": 8.06
     },
     {
       "question": "What is 108 km/hr in m/s?",
@@ -31,9 +36,11 @@
       "match": true,
       "tool_calls": 1,
       "errors": 0,
+      "tool_raw": "30.0",
+      "tool_correct": true,
       "recursion_hit": false,
       "timed_out": false,
-      "latency_s": 5.56
+      "latency_s": 7.64
     },
     {
       "question": "What is the factorial of 10?",
@@ -43,9 +50,11 @@
       "match": true,
       "tool_calls": 1,
       "errors": 0,
+      "tool_raw": "3628800",
+      "tool_correct": true,
       "recursion_hit": false,
       "timed_out": false,
-      "latency_s": 6.83
+      "latency_s": 7.26
     },
     {
       "question": "What is the sum of first 50 natural numbers?",
@@ -55,9 +64,11 @@
       "match": true,
       "tool_calls": 1,
       "errors": 0,
+      "tool_raw": "1275",
+      "tool_correct": true,
       "recursion_hit": false,
       "timed_out": false,
-      "latency_s": 3.2
+      "latency_s": 3.34
     },
     {
       "question": "What is 2^20?",
@@ -67,9 +78,11 @@
       "match": true,
       "tool_calls": 1,
       "errors": 0,
+      "tool_raw": "1048576",
+      "tool_correct": true,
       "recursion_hit": false,
       "timed_out": false,
-      "latency_s": 2.71
+      "latency_s": 3.17
     },
     {
       "question": "What is the square root of 1024?",
@@ -79,9 +92,11 @@
       "match": true,
       "tool_calls": 1,
       "errors": 0,
+      "tool_raw": "32.0",
+      "tool_correct": true,
       "recursion_hit": false,
       "timed_out": false,
-      "latency_s": 4.96
+      "latency_s": 3.13
     },
     {
       "question": "What is the 15th Fibonacci number?",
@@ -91,9 +106,11 @@
       "match": true,
       "tool_calls": 1,
       "errors": 0,
+      "tool_raw": "610",
+      "tool_correct": true,
       "recursion_hit": false,
       "timed_out": false,
-      "latency_s": 4.32
+      "latency_s": 3.86
     },
     {
       "question": "What is 15% of 250?",
@@ -103,9 +120,11 @@
       "match": true,
       "tool_calls": 1,
       "errors": 0,
+      "tool_raw": "37.5",
+      "tool_correct": true,
       "recursion_hit": false,
       "timed_out": false,
-      "latency_s": 2.7
+      "latency_s": 2.94
     },
     {
       "question": "What is the greatest common divisor of 48 and 180?",
@@ -115,33 +134,39 @@
       "match": true,
       "tool_calls": 1,
       "errors": 0,
+      "tool_raw": "12",
+      "tool_correct": true,
       "recursion_hit": false,
       "timed_out": false,
-      "latency_s": 5.95
+      "latency_s": 5.14
     },
     {
       "question": "What is the least common multiple of 12 and 15?",
       "expected": "60",
       "extracted": "60.",
-      "agent_raw": "The least common multiple of 12 and 15 is 60.",
+      "agent_raw": "The least common multiple (LCM) of 12 and 15 is 60.",
       "match": true,
       "tool_calls": 1,
       "errors": 0,
+      "tool_raw": "60",
+      "tool_correct": true,
       "recursion_hit": false,
       "timed_out": false,
-      "latency_s": 3.86
+      "latency_s": 5.0
     },
     {
       "question": "What is the area of a circle with radius 7? (round to 3 decimal places)",
       "expected": "153.938",
       "extracted": "153.938",
-      "agent_raw": "The area of a circle with a radius of 7 is approximately 153.938 square units (rounded to three decimal places).",
+      "agent_raw": "The area of a circle with a radius of 7 is approximately 153.938 (rounded to three decimal places).",
       "match": true,
       "tool_calls": 1,
       "errors": 0,
+      "tool_raw": "153.938",
+      "tool_correct": true,
       "recursion_hit": false,
       "timed_out": false,
-      "latency_s": 3.82
+      "latency_s": 5.21
     },
     {
       "question": "What is the volume of a sphere with radius 3? (round to 3 decimal places)",
@@ -151,9 +176,11 @@
       "match": true,
       "tool_calls": 1,
       "errors": 0,
+      "tool_raw": "113.097",
+      "tool_correct": true,
       "recursion_hit": false,
       "timed_out": false,
-      "latency_s": 3.95
+      "latency_s": 6.13
     },
     {
       "question": "What is sin(45 degrees) in radians? (round to 3 decimal places)",
@@ -163,21 +190,25 @@
       "match": true,
       "tool_calls": 1,
       "errors": 0,
+      "tool_raw": "0.707",
+      "tool_correct": true,
       "recursion_hit": false,
       "timed_out": false,
-      "latency_s": 3.82
+      "latency_s": 6.64
     },
     {
       "question": "What is log base 10 of 1000?",
       "expected": "3.0",
       "extracted": "3.0",
-      "agent_raw": "The logarithm base 10 of 1000 is 3.0.",
+      "agent_raw": "The log base 10 of 1000 is 3.0.",
       "match": true,
       "tool_calls": 1,
       "errors": 0,
+      "tool_raw": "3.0",
+      "tool_correct": true,
       "recursion_hit": false,
       "timed_out": false,
-      "latency_s": 3.38
+      "latency_s": 3.83
     },
     {
       "question": "What is the sum of digits of 12345?",
@@ -187,33 +218,39 @@
       "match": true,
       "tool_calls": 1,
       "errors": 0,
+      "tool_raw": "15",
+      "tool_correct": true,
       "recursion_hit": false,
       "timed_out": false,
-      "latency_s": 3.05
+      "latency_s": 3.57
     },
     {
       "question": "What is 2^10 + 3^5?",
       "expected": "1267",
       "extracted": "1267.",
-      "agent_raw": "The result of \\( 2^{10} + 3^{5} \\) is 1267.",
+      "agent_raw": "The value of \\( 2^{10} + 3^{5} \\) is 1267.",
       "match": true,
       "tool_calls": 1,
       "errors": 0,
+      "tool_raw": "1267",
+      "tool_correct": true,
       "recursion_hit": false,
       "timed_out": false,
-      "latency_s": 2.98
+      "latency_s": 4.14
     },
     {
       "question": "What is the perimeter of a rectangle with length 8 and width 5?",
       "expected": "26",
-      "extracted": "26",
-      "agent_raw": "The perimeter of a rectangle with a length of 8 and a width of 5 is 26 units.",
+      "extracted": "26.",
+      "agent_raw": "The perimeter of a rectangle with a length of 8 and a width of 5 is 26.",
       "match": true,
       "tool_calls": 1,
       "errors": 0,
+      "tool_raw": "26",
+      "tool_correct": true,
       "recursion_hit": false,
       "timed_out": false,
-      "latency_s": 2.86
+      "latency_s": 3.98
     },
     {
       "question": "What is the average of first 20 odd numbers?",
@@ -223,9 +260,11 @@
       "match": true,
       "tool_calls": 1,
       "errors": 0,
+      "tool_raw": "20.0",
+      "tool_correct": true,
       "recursion_hit": false,
       "timed_out": false,
-      "latency_s": 3.28
+      "latency_s": 4.18
     },
     {
       "question": "What is 17 choose 3?",
@@ -235,9 +274,11 @@
       "match": true,
       "tool_calls": 1,
       "errors": 0,
+      "tool_raw": "680",
+      "tool_correct": true,
       "recursion_hit": false,
       "timed_out": false,
-      "latency_s": 3.39
+      "latency_s": 4.61
     },
     {
       "question": "What is the remainder when 1000 is divided by 7?",
@@ -247,9 +288,11 @@
       "match": true,
       "tool_calls": 1,
       "errors": 0,
+      "tool_raw": "6",
+      "tool_correct": true,
       "recursion_hit": false,
       "timed_out": false,
-      "latency_s": 3.23
+      "latency_s": 3.9
     }
   ]
 }

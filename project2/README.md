@@ -20,7 +20,9 @@ Answer
 
 ## Eval Results
 
-| File | Questions | BM25 Only | BM25 + Rerank |
+All rerank results use `topk=10`.
+
+| File | Questions | BM25 Only | BM25 + Rerank (top 10) |
 |---|---|---|---|
 | `evals/easy.csv` | 17 | **17/17 (100%)** | **17/17 (100%)** |
 | `evals/hard.csv` | 9 | **9/9 (100%)** | **9/9 (100%)** |

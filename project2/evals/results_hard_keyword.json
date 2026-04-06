@@ -1,5 +1,5 @@
 {
-  "file": "project2/evals/hard.csv",
+  "file": "evals/hard.csv",
   "topk": 5,
   "total": 9,
   "correct": 9,
@@ -21,27 +21,27 @@
         {
           "source": "ncert_physics_class_11_part_1/keph1ps.pdf",
           "page": 9,
-          "score": 13.7655
-        },
-        {
-          "source": "ncert_physics_class_11_part_2/keph2ps.pdf",
-          "page": 7,
-          "score": 7.2152
+          "score": 13.6437
         },
         {
           "source": "ncert_physics_class_12_part_1/leph106.pdf",
           "page": 2,
-          "score": 5.7073
+          "score": 6.9475
+        },
+        {
+          "source": "ncert_physics_class_11_part_2/keph2ps.pdf",
+          "page": 7,
+          "score": 6.7405
         },
         {
           "source": "ncert_physics_class_12_part_1/leph1ps.pdf",
-          "page": 12,
-          "score": 5.5796
+          "page": 1,
+          "score": 6.356
         },
         {
-          "source": "ncert_physics_class_11_part_1/keph1ps.pdf",
-          "page": 11,
-          "score": 5.496
+          "source": "ncert_physics_class_12_part_2/leph2ps.pdf",
+          "page": 1,
+          "score": 6.356
         }
       ]
     },
@@ -67,27 +67,27 @@
         {
           "source": "ncert_physics_class_11_part_1/keph1ps.pdf",
           "page": 12,
-          "score": 35.3761
+          "score": 46.5765
         },
         {
           "source": "ncert_physics_class_11_part_2/keph2ps.pdf",
           "page": 13,
-          "score": 34.5713
+          "score": 45.2558
+        },
+        {
+          "source": "ncert_physics_class_11_part_1/keph1ps.pdf",
+          "page": 12,
+          "score": 24.9139
+        },
+        {
+          "source": "ncert_physics_class_11_part_2/keph2ps.pdf",
+          "page": 13,
+          "score": 22.0931
         },
         {
           "source": "ncert_physics_class_11_part_1/keph106.pdf",
-          "page": 16,
-          "score": 9.4999
-        },
-        {
-          "source": "ncert_physics_class_12_part_2/leph202.pdf",
           "page": 14,
-          "score": 7.7459
-        },
-        {
-          "source": "ncert_physics_class_11_part_2/keph205.pdf",
-          "page": 1,
-          "score": 7.3516
+          "score": 10.3167
         }
       ]
     },
@@ -112,27 +112,27 @@
         {
           "source": "ncert_physics_class_11_part_1/keph1ps.pdf",
           "page": 12,
-          "score": 47.6221
+          "score": 57.8922
         },
         {
           "source": "ncert_physics_class_11_part_2/keph2ps.pdf",
           "page": 13,
-          "score": 46.4027
-        },
-        {
-          "source": "ncert_physics_class_11_part_1/keph106.pdf",
-          "page": 16,
-          "score": 7.7989
+          "score": 56.1121
         },
         {
           "source": "ncert_physics_class_11_part_1/keph1ps.pdf",
-          "page": 11,
-          "score": 7.0748
+          "page": 12,
+          "score": 22.6082
         },
         {
           "source": "ncert_physics_class_11_part_2/keph2ps.pdf",
-          "page": 9,
-          "score": 7.0441
+          "page": 13,
+          "score": 19.7874
+        },
+        {
+          "source": "ncert_physics_class_11_part_2/keph2ps.pdf",
+          "page": 13,
+          "score": 11.4115
         }
       ]
     },
@@ -154,27 +154,27 @@
         {
           "source": "ncert_physics_class_11_part_1/keph1ps.pdf",
           "page": 12,
-          "score": 18.5107
+          "score": 18.7388
         },
         {
           "source": "ncert_physics_class_11_part_2/keph2ps.pdf",
           "page": 13,
-          "score": 18.0096
+          "score": 18.2161
         },
         {
-          "source": "ncert_physics_class_11_part_1/keph102.pdf",
-          "page": 14,
-          "score": 7.8601
+          "source": "ncert_physics_class_11_part_1/keph1ps.pdf",
+          "page": 12,
+          "score": 15.5026
         },
         {
-          "source": "ncert_physics_class_11_part_1/keph102.pdf",
-          "page": 9,
-          "score": 7.3768
+          "source": "ncert_physics_class_11_part_2/keph2ps.pdf",
+          "page": 13,
+          "score": 12.6819
         },
         {
           "source": "ncert_physics_class_12_part_1/leph106.pdf",
           "page": 7,
-          "score": 6.726
+          "score": 9.7301
         }
       ]
     },
@@ -199,28 +199,28 @@
       "top_results": [
         {
           "source": "ncert_physics_class_11_part_1/keph106.pdf",
-          "page": 25,
-          "score": 23.4677
+          "page": 1,
+          "score": 27.9347
         },
         {
           "source": "ncert_physics_class_11_part_1/keph106.pdf",
-          "page": 1,
-          "score": 22.6774
+          "page": 25,
+          "score": 26.3149
         },
         {
           "source": "ncert_physics_class_11_part_1/keph1ps.pdf",
           "page": 14,
-          "score": 22.0016
+          "score": 25.4494
         },
         {
           "source": "ncert_physics_class_11_part_1/keph106.pdf",
           "page": 27,
-          "score": 20.1084
+          "score": 24.918
         },
         {
           "source": "ncert_physics_class_11_part_1/keph106.pdf",
-          "page": 26,
-          "score": 19.4056
+          "page": 27,
+          "score": 19.2131
         }
       ]
     },
@@ -256,27 +256,27 @@
         {
           "source": "ncert_physics_class_11_part_1/keph103.pdf",
           "page": 8,
-          "score": 67.1015
+          "score": 74.4486
+        },
+        {
+          "source": "ncert_physics_class_11_part_1/keph103.pdf",
+          "page": 8,
+          "score": 61.8964
         },
         {
           "source": "ncert_physics_class_12_part_1/leph104.pdf",
           "page": 18,
-          "score": 24.0475
+          "score": 28.5432
+        },
+        {
+          "source": "ncert_physics_class_12_part_1/leph104.pdf",
+          "page": 18,
+          "score": 27.6502
         },
         {
           "source": "ncert_physics_class_11_part_1/keph1an.pdf",
-          "page": 3,
-          "score": 23.3513
-        },
-        {
-          "source": "ncert_physics_class_11_part_2/keph203.pdf",
-          "page": 16,
-          "score": 22.7978
-        },
-        {
-          "source": "ncert_physics_class_11_part_1/keph102.pdf",
-          "page": 13,
-          "score": 22.0242
+          "page": 2,
+          "score": 27.3415
         }
       ]
     },
@@ -321,27 +321,27 @@
         {
           "source": "ncert_physics_class_11_part_1/keph104.pdf",
           "page": 10,
-          "score": 69.5748
+          "score": 89.8712
+        },
+        {
+          "source": "ncert_physics_class_11_part_1/keph104.pdf",
+          "page": 10,
+          "score": 83.4094
+        },
+        {
+          "source": "ncert_physics_class_11_part_1/keph104.pdf",
+          "page": 11,
+          "score": 48.5595
         },
         {
           "source": "ncert_physics_class_11_part_2/keph201.pdf",
           "page": 9,
-          "score": 42.5717
+          "score": 46.5379
         },
         {
-          "source": "ncert_physics_class_11_part_1/keph104.pdf",
-          "page": 21,
-          "score": 38.6557
-        },
-        {
-          "source": "ncert_physics_class_11_part_1/keph105.pdf",
-          "page": 18,
-          "score": 37.007
-        },
-        {
-          "source": "ncert_physics_class_11_part_1/keph106.pdf",
-          "page": 35,
-          "score": 35.1644
+          "source": "ncert_physics_class_11_part_2/keph201.pdf",
+          "page": 9,
+          "score": 40.1591
         }
       ]
     },
@@ -367,27 +367,27 @@
         {
           "source": "ncert_physics_class_11_part_1/keph104.pdf",
           "page": 13,
-          "score": 28.6576
-        },
-        {
-          "source": "ncert_physics_class_11_part_1/keph104.pdf",
-          "page": 17,
-          "score": 25.9584
+          "score": 38.1192
         },
         {
           "source": "ncert_physics_class_11_part_1/keph104.pdf",
           "page": 14,
-          "score": 23.7082
+          "score": 29.6858
         },
         {
-          "source": "ncert_physics_class_11_part_2/keph206.pdf",
-          "page": 11,
-          "score": 15.4662
+          "source": "ncert_physics_class_11_part_1/keph104.pdf",
+          "page": 17,
+          "score": 27.6617
         },
         {
-          "source": "ncert_physics_class_11_part_1/keph105.pdf",
-          "page": 7,
-          "score": 14.6107
+          "source": "ncert_physics_class_11_part_1/keph104.pdf",
+          "page": 17,
+          "score": 27.5111
+        },
+        {
+          "source": "ncert_physics_class_11_part_1/keph104.pdf",
+          "page": 14,
+          "score": 23.6046
         }
       ]
     },
@@ -411,27 +411,27 @@
         {
           "source": "ncert_physics_class_11_part_1/keph105.pdf",
           "page": 5,
-          "score": 17.68
+          "score": 21.5931
         },
         {
-          "source": "ncert_physics_class_12_part_1/leph1ps.pdf",
-          "page": 11,
-          "score": 8.763
+          "source": "ncert_physics_class_11_part_1/keph103.pdf",
+          "page": 14,
+          "score": 10.3689
         },
         {
-          "source": "ncert_physics_class_12_part_2/leph2ps.pdf",
-          "page": 9,
-          "score": 8.3164
+          "source": "ncert_physics_class_11_part_1/keph1an.pdf",
+          "page": 2,
+          "score": 9.4961
         },
         {
-          "source": "ncert_physics_class_12_part_2/leph2an.pdf",
-          "page": 4,
-          "score": 8.2659
+          "source": "ncert_physics_class_11_part_1/keph104.pdf",
+          "page": 7,
+          "score": 8.7724
         },
         {
-          "source": "ncert_physics_class_11_part_2/keph2an.pdf",
-          "page": 12,
-          "score": 8.0245
+          "source": "ncert_physics_class_11_part_1/keph1an.pdf",
+          "page": 2,
+          "score": 8.7098
         }
       ]
     }

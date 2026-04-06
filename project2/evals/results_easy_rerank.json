@@ -1,7 +1,7 @@
 {
   "file": "evals/easy.csv",
   "retrieval_k": 100,
-  "topk": 10,
+  "topk": 5,
   "total": 17,
   "correct": 17,
   "accuracy": 1.0,
@@ -46,31 +46,6 @@
           "source": "ncert_physics_class_12_part_1/leph101.pdf",
           "page": 2,
           "rerank_score": 0.466457
-        },
-        {
-          "source": "ncert_physics_class_12_part_1/leph101.pdf",
-          "page": 7,
-          "rerank_score": 0.401312
-        },
-        {
-          "source": "ncert_physics_class_12_part_1/leph101.pdf",
-          "page": 4,
-          "rerank_score": 0.385652
-        },
-        {
-          "source": "ncert_physics_class_12_part_1/leph101.pdf",
-          "page": 3,
-          "rerank_score": 0.300746
-        },
-        {
-          "source": "ncert_physics_class_12_part_1/leph101.pdf",
-          "page": 37,
-          "rerank_score": 0.296817
-        },
-        {
-          "source": "ncert_physics_class_12_part_1/leph101.pdf",
-          "page": 7,
-          "rerank_score": 0.271406
         }
       ]
     },
@@ -117,31 +92,6 @@
           "source": "ncert_physics_class_12_part_1/leph102.pdf",
           "page": 32,
           "rerank_score": 0.797178
-        },
-        {
-          "source": "ncert_physics_class_12_part_1/leph102.pdf",
-          "page": 3,
-          "rerank_score": 0.792079
-        },
-        {
-          "source": "ncert_physics_class_12_part_1/leph102.pdf",
-          "page": 14,
-          "rerank_score": 0.790012
-        },
-        {
-          "source": "ncert_physics_class_12_part_1/leph102.pdf",
-          "page": 34,
-          "rerank_score": 0.775129
-        },
-        {
-          "source": "ncert_physics_class_12_part_1/leph102.pdf",
-          "page": 4,
-          "rerank_score": 0.760651
-        },
-        {
-          "source": "ncert_physics_class_12_part_1/leph102.pdf",
-          "page": 15,
-          "rerank_score": 0.712232
         }
       ]
     },
@@ -183,31 +133,6 @@
           "source": "ncert_physics_class_12_part_2/leph204.pdf",
           "page": 10,
           "rerank_score": 0.770741
-        },
-        {
-          "source": "ncert_physics_class_12_part_2/leph204.pdf",
-          "page": 7,
-          "rerank_score": 0.530042
-        },
-        {
-          "source": "ncert_physics_class_12_part_2/leph204.pdf",
-          "page": 7,
-          "rerank_score": 0.509716
-        },
-        {
-          "source": "ncert_physics_class_12_part_2/leph205.pdf",
-          "page": 6,
-          "rerank_score": 0.359364
-        },
-        {
-          "source": "ncert_physics_class_12_part_2/leph203.pdf",
-          "page": 2,
-          "rerank_score": 0.213115
-        },
-        {
-          "source": "ncert_physics_class_12_part_1/leph101.pdf",
-          "page": 17,
-          "rerank_score": 0.212069
         }
       ]
     },
@@ -255,31 +180,6 @@
           "source": "ncert_physics_class_12_part_1/leph104.pdf",
           "page": 12,
           "rerank_score": 0.723622
-        },
-        {
-          "source": "ncert_physics_class_12_part_1/leph104.pdf",
-          "page": 13,
-          "rerank_score": 0.625392
-        },
-        {
-          "source": "ncert_physics_class_12_part_1/leph104.pdf",
-          "page": 13,
-          "rerank_score": 0.531404
-        },
-        {
-          "source": "ncert_physics_class_12_part_1/leph104.pdf",
-          "page": 2,
-          "rerank_score": 0.393828
-        },
-        {
-          "source": "ncert_physics_class_12_part_1/leph104.pdf",
-          "page": 23,
-          "rerank_score": 0.368042
-        },
-        {
-          "source": "ncert_physics_class_12_part_1/leph108.pdf",
-          "page": 1,
-          "rerank_score": 0.322867
         }
       ]
     },
@@ -323,31 +223,6 @@
           "source": "ncert_physics_class_12_part_1/leph104.pdf",
           "page": 23,
           "rerank_score": 0.867036
-        },
-        {
-          "source": "ncert_physics_class_12_part_1/leph105.pdf",
-          "page": 16,
-          "rerank_score": 0.825815
-        },
-        {
-          "source": "ncert_physics_class_12_part_1/leph104.pdf",
-          "page": 23,
-          "rerank_score": 0.693971
-        },
-        {
-          "source": "ncert_physics_class_12_part_1/leph105.pdf",
-          "page": 5,
-          "rerank_score": 0.538207
-        },
-        {
-          "source": "ncert_physics_class_12_part_1/leph105.pdf",
-          "page": 9,
-          "rerank_score": 0.532377
-        },
-        {
-          "source": "ncert_physics_class_12_part_1/leph105.pdf",
-          "page": 2,
-          "rerank_score": 0.475021
         }
       ]
     },
@@ -393,31 +268,6 @@
           "source": "ncert_physics_class_12_part_1/leph107.pdf",
           "page": 20,
           "rerank_score": 0.30869
-        },
-        {
-          "source": "ncert_physics_class_12_part_1/leph107.pdf",
-          "page": 20,
-          "rerank_score": 0.276378
-        },
-        {
-          "source": "ncert_physics_class_12_part_1/leph107.pdf",
-          "page": 1,
-          "rerank_score": 0.272644
-        },
-        {
-          "source": "ncert_physics_class_12_part_1/leph106.pdf",
-          "page": 19,
-          "rerank_score": 0.267714
-        },
-        {
-          "source": "ncert_physics_class_12_part_1/leph107.pdf",
-          "page": 18,
-          "rerank_score": 0.260427
-        },
-        {
-          "source": "ncert_physics_class_12_part_1/leph103.pdf",
-          "page": 17,
-          "rerank_score": 0.259225
         }
       ]
     },
@@ -463,31 +313,6 @@
           "source": "ncert_physics_class_12_part_1/leph106.pdf",
           "page": 8,
           "rerank_score": 0.890903
-        },
-        {
-          "source": "ncert_physics_class_12_part_1/leph106.pdf",
-          "page": 7,
-          "rerank_score": 0.879478
-        },
-        {
-          "source": "ncert_physics_class_12_part_1/leph106.pdf",
-          "page": 8,
-          "rerank_score": 0.793106
-        },
-        {
-          "source": "ncert_physics_class_12_part_1/leph106.pdf",
-          "page": 7,
-          "rerank_score": 0.792079
-        },
-        {
-          "source": "ncert_physics_class_12_part_1/leph106.pdf",
-          "page": 21,
-          "rerank_score": 0.787931
-        },
-        {
-          "source": "ncert_physics_class_12_part_1/leph106.pdf",
-          "page": 20,
-          "rerank_score": 0.783724
         }
       ]
     },
@@ -531,31 +356,6 @@
           "source": "ncert_physics_class_12_part_1/leph108.pdf",
           "page": 2,
           "rerank_score": 0.93776
-        },
-        {
-          "source": "ncert_physics_class_11_part_2/keph203.pdf",
-          "page": 17,
-          "rerank_score": 0.937027
-        },
-        {
-          "source": "ncert_physics_class_11_part_2/keph203.pdf",
-          "page": 17,
-          "rerank_score": 0.904651
-        },
-        {
-          "source": "ncert_physics_class_12_part_1/leph108.pdf",
-          "page": 12,
-          "rerank_score": 0.903567
-        },
-        {
-          "source": "ncert_physics_class_12_part_1/leph104.pdf",
-          "page": 8,
-          "rerank_score": 0.887205
-        },
-        {
-          "source": "ncert_physics_class_12_part_1/leph108.pdf",
-          "page": 7,
-          "rerank_score": 0.862653
         }
       ]
     },
@@ -599,31 +399,6 @@
           "source": "ncert_physics_class_12_part_1/leph108.pdf",
           "page": 10,
           "rerank_score": 0.636308
-        },
-        {
-          "source": "ncert_physics_class_12_part_2/leph202.pdf",
-          "page": 2,
-          "rerank_score": 0.587754
-        },
-        {
-          "source": "ncert_physics_class_12_part_1/leph108.pdf",
-          "page": 13,
-          "rerank_score": 0.575206
-        },
-        {
-          "source": "ncert_physics_class_12_part_2/leph201.pdf",
-          "page": 1,
-          "rerank_score": 0.549641
-        },
-        {
-          "source": "ncert_physics_class_12_part_1/leph108.pdf",
-          "page": 8,
-          "rerank_score": 0.538401
-        },
-        {
-          "source": "ncert_physics_class_12_part_1/leph108.pdf",
-          "page": 2,
-          "rerank_score": 0.515425
         }
       ]
     },
@@ -674,31 +449,6 @@
           "source": "ncert_physics_class_12_part_2/leph201.pdf",
           "page": 30,
           "rerank_score": 0.632684
-        },
-        {
-          "source": "ncert_physics_class_12_part_2/leph201.pdf",
-          "page": 32,
-          "rerank_score": 0.576351
-        },
-        {
-          "source": "ncert_physics_class_12_part_2/leph201.pdf",
-          "page": 32,
-          "rerank_score": 0.542669
-        },
-        {
-          "source": "ncert_physics_class_12_part_2/leph2an.pdf",
-          "page": 6,
-          "rerank_score": 0.524882
-        },
-        {
-          "source": "ncert_physics_class_12_part_2/leph201.pdf",
-          "page": 24,
-          "rerank_score": 0.512693
-        },
-        {
-          "source": "ncert_physics_class_12_part_2/leph2an.pdf",
-          "page": 3,
-          "rerank_score": 0.45423
         }
       ]
     },
@@ -738,31 +488,6 @@
           "source": "ncert_physics_class_12_part_2/leph202.pdf",
           "page": 4,
           "rerank_score": 0.780529
-        },
-        {
-          "source": "ncert_physics_class_12_part_2/leph202.pdf",
-          "page": 4,
-          "rerank_score": 0.771843
-        },
-        {
-          "source": "ncert_physics_class_12_part_2/leph202.pdf",
-          "page": 3,
-          "rerank_score": 0.744359
-        },
-        {
-          "source": "ncert_physics_class_12_part_2/leph202.pdf",
-          "page": 4,
-          "rerank_score": 0.649223
-        },
-        {
-          "source": "ncert_physics_class_12_part_2/leph202.pdf",
-          "page": 7,
-          "rerank_score": 0.644941
-        },
-        {
-          "source": "ncert_physics_class_12_part_2/leph202.pdf",
-          "page": 5,
-          "rerank_score": 0.606172
         }
       ]
     },
@@ -807,31 +532,6 @@
           "source": "ncert_physics_class_12_part_2/leph206.pdf",
           "page": 2,
           "rerank_score": 0.088064
-        },
-        {
-          "source": "ncert_physics_class_12_part_2/leph206.pdf",
-          "page": 1,
-          "rerank_score": 0.087066
-        },
-        {
-          "source": "ncert_physics_class_12_part_2/leph201.pdf",
-          "page": 20,
-          "rerank_score": 0.083173
-        },
-        {
-          "source": "ncert_physics_class_12_part_1/leph1an.pdf",
-          "page": 6,
-          "rerank_score": 0.076739
-        },
-        {
-          "source": "ncert_physics_class_12_part_2/leph204.pdf",
-          "page": 15,
-          "rerank_score": 0.074987
-        },
-        {
-          "source": "ncert_physics_class_12_part_1/leph106.pdf",
-          "page": 18,
-          "rerank_score": 0.073271
         }
       ]
     },
@@ -873,31 +573,6 @@
           "source": "ncert_physics_class_12_part_1/leph108.pdf",
           "page": 6,
           "rerank_score": 0.461405
-        },
-        {
-          "source": "ncert_physics_class_12_part_2/leph203.pdf",
-          "page": 4,
-          "rerank_score": 0.316074
-        },
-        {
-          "source": "ncert_physics_class_12_part_2/leph203.pdf",
-          "page": 7,
-          "rerank_score": 0.303381
-        },
-        {
-          "source": "ncert_physics_class_12_part_2/leph203.pdf",
-          "page": 13,
-          "rerank_score": 0.286489
-        },
-        {
-          "source": "ncert_physics_class_12_part_2/leph203.pdf",
-          "page": 14,
-          "rerank_score": 0.278885
-        },
-        {
-          "source": "ncert_physics_class_12_part_2/leph203.pdf",
-          "page": 9,
-          "rerank_score": 0.278885
         }
       ]
     },
@@ -943,31 +618,6 @@
           "source": "ncert_physics_class_12_part_2/leph204.pdf",
           "page": 6,
           "rerank_score": 0.268941
-        },
-        {
-          "source": "ncert_physics_class_12_part_2/leph204.pdf",
-          "page": 3,
-          "rerank_score": 0.248571
-        },
-        {
-          "source": "ncert_physics_class_12_part_2/leph204.pdf",
-          "page": 4,
-          "rerank_score": 0.218403
-        },
-        {
-          "source": "ncert_physics_class_12_part_2/leph204.pdf",
-          "page": 4,
-          "rerank_score": 0.19881
-        },
-        {
-          "source": "ncert_physics_class_12_part_2/leph204.pdf",
-          "page": 3,
-          "rerank_score": 0.191933
-        },
-        {
-          "source": "ncert_physics_class_12_part_2/leph204.pdf",
-          "page": 4,
-          "rerank_score": 0.178726
         }
       ]
     },
@@ -1011,31 +661,6 @@
           "source": "ncert_physics_class_12_part_2/leph204.pdf",
           "page": 16,
           "rerank_score": 0.867036
-        },
-        {
-          "source": "ncert_physics_class_12_part_2/leph204.pdf",
-          "page": 7,
-          "rerank_score": 0.845535
-        },
-        {
-          "source": "ncert_physics_class_12_part_2/leph204.pdf",
-          "page": 7,
-          "rerank_score": 0.824914
-        },
-        {
-          "source": "ncert_physics_class_12_part_2/leph204.pdf",
-          "page": 10,
-          "rerank_score": 0.782662
-        },
-        {
-          "source": "ncert_physics_class_12_part_2/leph204.pdf",
-          "page": 11,
-          "rerank_score": 0.765172
-        },
-        {
-          "source": "ncert_physics_class_12_part_2/leph204.pdf",
-          "page": 16,
-          "rerank_score": 0.69131
         }
       ]
     },
@@ -1078,31 +703,6 @@
           "source": "ncert_physics_class_12_part_2/leph206.pdf",
           "page": 18,
           "rerank_score": 0.842241
-        },
-        {
-          "source": "ncert_physics_class_12_part_2/leph206.pdf",
-          "page": 18,
-          "rerank_score": 0.796166
-        },
-        {
-          "source": "ncert_physics_class_12_part_2/leph206.pdf",
-          "page": 19,
-          "rerank_score": 0.761787
-        },
-        {
-          "source": "ncert_physics_class_12_part_2/leph206.pdf",
-          "page": 2,
-          "rerank_score": 0.738367
-        },
-        {
-          "source": "ncert_physics_class_12_part_2/leph206.pdf",
-          "page": 8,
-          "rerank_score": 0.721115
-        },
-        {
-          "source": "ncert_physics_class_12_part_2/leph206.pdf",
-          "page": 5,
-          "rerank_score": 0.682574
         }
       ]
     },
@@ -1150,31 +750,6 @@
           "source": "ncert_physics_class_12_part_2/leph206.pdf",
           "page": 20,
           "rerank_score": 0.77838
-        },
-        {
-          "source": "ncert_physics_class_12_part_2/leph206.pdf",
-          "page": 12,
-          "rerank_score": 0.774037
-        },
-        {
-          "source": "ncert_physics_class_12_part_2/leph206.pdf",
-          "page": 13,
-          "rerank_score": 0.75722
-        },
-        {
-          "source": "ncert_physics_class_12_part_2/leph206.pdf",
-          "page": 13,
-          "rerank_score": 0.727356
-        },
-        {
-          "source": "ncert_physics_class_12_part_2/leph206.pdf",
-          "page": 13,
-          "rerank_score": 0.72237
-        },
-        {
-          "source": "ncert_physics_class_12_part_2/leph206.pdf",
-          "page": 12,
-          "rerank_score": 0.693971
         }
       ]
     }
